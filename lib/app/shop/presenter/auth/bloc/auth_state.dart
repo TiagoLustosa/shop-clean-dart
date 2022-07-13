@@ -1,0 +1,24 @@
+import 'package:shop_clean_arch/app/shop/domain/exceptions/auth_exceptions.dart';
+
+import '../../../domain/entities/auth.dart';
+
+abstract class AuthState {}
+
+class AuthSuccess extends AuthState {
+  final Auth? auth;
+
+  AuthSuccess(this.auth);
+}
+
+class AuthStart implements AuthState {
+  const AuthStart();
+}
+
+class AuthLoading implements AuthState {
+  const AuthLoading();
+}
+
+class AuthError implements AuthState {
+  final IAuthExceptions error;
+  AuthError(this.error);
+}
