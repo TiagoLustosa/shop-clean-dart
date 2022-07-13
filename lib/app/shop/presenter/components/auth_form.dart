@@ -25,6 +25,7 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   bool _isLoading = false;
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
@@ -79,13 +80,14 @@ class _AuthFormState extends State<AuthForm> {
       return;
     }
     _formKey.currentState?.save();
-    context
-        .read<AuthBloc>()
+
+    final authBloc = context.read<AuthBloc>();
+    authBloc
         .add(AuthWithEmailSend(_authData['email']!, _authData['password']!));
-    var state = context.read<AuthBloc>().state;
-    if (state is AuthError) {
-      _showErrorDialog(state.error.toString());
-    }
+    // var state = authBloc.state;
+    // if (state is AuthError) {
+    //   _showErrorDialog(state.error.toString());
+    // }
   }
 
   @override
@@ -151,6 +153,8 @@ class _AuthFormState extends State<AuthForm> {
                   const SizedBox(
                     child: CircularProgressIndicator(),
                   ),
+                if (state is AuthError)
+                  _showErrorDialog(state.error.toString()),
                 ElevatedButton(
                   onPressed: () => _submit(context),
                   style: ElevatedButton.styleFrom(
