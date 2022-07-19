@@ -1,8 +1,9 @@
+import '../../../domain/entities/auth_credentials.dart';
+
 abstract class AuthEvent {}
 
 class AuthWithEmailSend extends AuthEvent {
-  final String email;
-  final String password;
+  final AuthCredentials credentials;
 
-  AuthWithEmailSend(this.email, this.password);
+  AuthWithEmailSend(this.credentials);
 }

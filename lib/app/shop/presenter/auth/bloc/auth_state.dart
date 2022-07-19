@@ -6,7 +6,6 @@ abstract class AuthState {}
 
 class AuthSuccess extends AuthState {
   final Auth? auth;
-
   AuthSuccess(this.auth);
 }
 
@@ -19,6 +18,6 @@ class AuthLoading implements AuthState {
 }
 
 class AuthError implements AuthState {
-  final IAuthExceptions error;
+  final Exception error;
   AuthError(this.error);
 }

@@ -36,7 +36,6 @@ class AuthPage extends StatelessWidget {
                     vertical: 10,
                     horizontal: 70,
                   ),
-                  // cascade operator
                   transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(70),
@@ -67,17 +66,3 @@ class AuthPage extends StatelessWidget {
     );
   }
 }
-
-// Exemplo usado para explicar o cascade operator
-// void main() {
-//   List<int> a = [1, 2, 3];
-//   a.add(4);
-//   a.add(5);
-//   a.add(6);
-  
-//   // cascade operator!
-//   a..add(7)..add(8)..add(9);
-  
-//   print(a);
-// }
-

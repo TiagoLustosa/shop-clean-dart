@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../domain/entities/auth_credentials.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
@@ -16,11 +17,13 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  var credentials = AuthCredentials();
   AuthMode _authMode = AuthMode.Login;
   final Map<String, String> _authData = {
     'email': '',
     'password': '',
   };
+
   bool _isLogin() => _authMode == AuthMode.Login;
 
   void _switchAuthMode() {
@@ -55,19 +58,25 @@ class _AuthFormState extends State<AuthForm> {
       return;
     }
     _formKey.currentState?.save();
+    credentials.email = _authData['email'];
+    credentials.password = _authData['password'];
 
-    context
-        .read<AuthBloc>()
-        .add(AuthWithEmailSend(_authData['email']!, _authData['password']!));
+    context.read<AuthBloc>().add(AuthWithEmailSend(credentials));
   }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthError) {
           _showErrorDialog(state.error.toString());
+        }
+        if (state is AuthSuccess) {
+          if (state.auth!.token != null) {
+            Navigator.of(context).pushReplacementNamed('/products');
+          }
         }
       },
       child: Card(
@@ -87,7 +96,7 @@ class _AuthFormState extends State<AuthForm> {
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'E-mail'),
                     keyboardType: TextInputType.emailAddress,
-                    onSaved: (email) => _authData['email'],
+                    onSaved: (email) => _authData['email'] = email ?? '',
                     validator: (emailValue) {
                       final email = emailValue ?? '';
                       if (email.trim().isEmpty || !email.contains('@')) {
@@ -98,7 +107,6 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Senha'),
-                    keyboardType: TextInputType.emailAddress,
                     obscureText: true,
                     controller: _passwordController,
                     onSaved: (password) =>
@@ -115,7 +123,6 @@ class _AuthFormState extends State<AuthForm> {
                     TextFormField(
                       decoration:
                           const InputDecoration(labelText: 'Confirmar Senha'),
-                      keyboardType: TextInputType.emailAddress,
                       obscureText: true,
                       validator: _isLogin()
                           ? null
@@ -148,7 +155,7 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                   TextButton(
-                    onPressed: _switchAuthMode,
+                    onPressed: () => print(state),
                     child: Text(
                       _isLogin() ? 'REGISTRAR' : 'ENTRAR',
                     ),
