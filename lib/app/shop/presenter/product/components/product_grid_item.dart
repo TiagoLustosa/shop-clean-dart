@@ -27,7 +27,7 @@ class ProductGridItem extends StatelessWidget {
             ),
             trailing: IconButton(
               icon: const Icon(Icons.shopping_cart),
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.surface,
               onPressed: () {},
               // onPressed: () {
               //   cart.addItem(product);

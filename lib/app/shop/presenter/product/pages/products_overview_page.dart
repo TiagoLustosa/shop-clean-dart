@@ -34,7 +34,7 @@ class _ProductOverViewPageState extends State<ProductOverViewPage> {
             icon: const Icon(Icons.more_vert),
             itemBuilder: (_) => [
               const PopupMenuItem(
-                child: const Text('Somente Favoritos'),
+                child: Text('Somente Favoritos'),
               ),
               const PopupMenuItem(
                 child: Text('Todos'),
