@@ -10,6 +10,7 @@ import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 import 'package:shop_clean_arch/app/shop/utils/constants.dart';
 
+import '../../domain/entities/product.dart';
 import '../../infra/datasources/auth_datasource.dart';
 
 class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
@@ -59,9 +60,16 @@ class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
   }
 
   @override
-  Future<ProductResultModel> createProduct(ProductResultModel product) {
-    // TODO: implement createProduct
-    throw UnimplementedError();
+  Future<ProductResultModel> addProduct(Product product) async {
+    product as ProductResultModel;
+    final response = await dio.post('$productBaseURL.json',
+        data: json.encode(product.toJson()));
+    if (response.statusCode == 200) {
+      return product;
+    } else {
+      throw ProductDataSourceException(
+          message: 'Error while trying to add product');
+    }
   }
 
   @override

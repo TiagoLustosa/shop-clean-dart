@@ -13,9 +13,9 @@ class ProductResultModel extends Product {
 
   static fromMap(Map<String, dynamic> map) {
     return ProductResultModel(
-      id: map['id'],
-      name: map['name'],
+      id: map['key'],
       description: map['description'],
+      name: map['name'],
       price: map['price'],
       imageUrl: map['imageUrl'],
     );
@@ -33,7 +33,7 @@ class ProductResultModel extends Product {
 
   factory ProductResultModel.fromJson(Map<String, dynamic> json) {
     return ProductResultModel(
-      id: json['id'],
+      id: json['key'],
       name: json['name'],
       description: json['description'],
       price: json['price'],

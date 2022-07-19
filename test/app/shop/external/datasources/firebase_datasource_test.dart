@@ -8,6 +8,7 @@ import 'package:shop_clean_arch/app/shop/domain/exceptions/auth_exceptions.dart'
 import 'package:shop_clean_arch/app/shop/external/datasources/firebase_datasource.dart';
 import 'package:shop_clean_arch/app/shop/infra/dependency_injection/dependency_injection_config.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 import 'package:shop_clean_arch/app/shop/utils/constants.dart';
 import '../../utils/firebase_response.dart';
 
@@ -74,5 +75,20 @@ main() {
     final result = await dioMock.post(firebaseURL, data: userCredentials);
     expect(result.statusCode, 201);
     expect(AuthResultModel.fromJson(result.data), isA<AuthResultModel>());
+  });
+
+  test('should return a list of products', () async {
+    dioAdapter.onGet(
+      firebaseURL,
+      (server) => server.reply(
+        200,
+        jsonDecode(fireBaseResponseList),
+        delay: Duration(seconds: 1),
+      ),
+    );
+    final result = await dioMock.get(firebaseURL);
+
+    expect(result.statusCode, 200);
+    expect(result.data, isA<List>());
   });
 }

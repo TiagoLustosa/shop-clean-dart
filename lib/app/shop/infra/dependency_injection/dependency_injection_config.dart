@@ -8,6 +8,7 @@ import 'package:shop_clean_arch/app/shop/presenter/auth/bloc/auth_bloc.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../../domain/usecases/auth_usecases/auth_with_email.dart';
+import '../../domain/usecases/product_usecases/add_product.dart';
 import '../../domain/usecases/product_usecases/get_product.dart';
 import '../../domain/usecases/product_usecases/get_products_list.dart';
 import '../../presenter/product/bloc/product_bloc.dart';
@@ -36,6 +37,8 @@ void configureDependencies() {
   getIt.registerSingleton<GetProduct>(GetProduct(getIt<IProductRepository>()));
   getIt.registerSingleton<GetProductsListUseCase>(
       GetProductsListUseCase(getIt<IProductRepository>()));
+  getIt.registerSingleton<AddProductUseCase>(
+      AddProductUseCase(getIt<IProductRepository>()));
   //Bloc
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt<AuthWithEmail>()));
   getIt.registerSingleton<ProductsListBloc>(

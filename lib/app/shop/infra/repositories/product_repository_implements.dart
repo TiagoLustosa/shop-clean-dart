@@ -36,15 +36,19 @@ class ProductRepositoryImplements implements IProductRepository {
       return Left(ProductDataSourceException(message: e.toString()));
     }
     return Right(products);
-    //  == []
-    //     ? Right(products)
-    //     : Left(ProductDataSourceException(message: 'No products found'));
   }
 
   @override
-  Future<Either<IProductExceptions, Product>> createProduct(Product product) {
-    // TODO: implement createProduct
-    throw UnimplementedError();
+  Future<Either<IProductExceptions, Product>> addProduct(
+      Product product) async {
+    try {
+      await _productDataSource.addProduct(product);
+    } on ProductDataSourceException catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(ProductDataSourceException(message: e.toString()));
+    }
+    return Right(product);
   }
 
   @override

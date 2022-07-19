@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/product_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/product_datasource.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
@@ -12,6 +13,9 @@ main() {
   final productDataSourceMock = ProductDataSourceMock();
   final productRepository = ProductRepositoryImplements(productDataSourceMock);
 
+  setUp(() {
+    registerFallbackValue(Product());
+  });
   test('should return a product result model', () async {
     when(() => productDataSourceMock.getProduct(any()))
         .thenAnswer((_) async => ProductResultModel());
@@ -39,16 +43,6 @@ main() {
     expect(actual, isA<List<ProductResultModel>>());
   });
 
-  // test('should return a error ', () async {
-  //   when(() => productDataSourceMock.getAllProducts())
-  //       .thenAnswer((_) async => <ProductResultModel>[ProductResultModel()]);
-  //   final result = await productRepository.getAllProducts();
-  //   final actual = result.fold(id, id);
-  //   expect(result.isLeft(), true);
-  //   expect(actual, isA<ProductDataSourceException>());
-  //   //expect(actual, 'No products found');
-  // });
-
   test('should return a error ', () async {
     when(() => productDataSourceMock.getAllProducts())
         .thenThrow(ProductDataSourceException(message: 'Error'));
@@ -57,5 +51,24 @@ main() {
     expect(result.isLeft(), true);
     expect(actual, isA<ProductDataSourceException>());
     //expect(actual, 'No products found');
+  });
+
+  test('should return an error when addProduct', () async {
+    when(() => productDataSourceMock.addProduct(any())).thenThrow((_) async =>
+        ProductDataSourceException(message: 'Error while adding product'));
+    final result = await productRepository.addProduct(Product());
+    final actual = result.fold(id, id);
+    expect(result.isLeft(), true);
+    expect(actual, isA<ProductDataSourceException>());
+  });
+
+  test('should return a product when addProduct', () async {
+    when(() => productDataSourceMock.addProduct(any()))
+        .thenAnswer((_) async => Product());
+    final result =
+        await productRepository.addProduct(Product(description: null));
+    final actual = result.fold(id, id);
+    expect(result.isRight(), true);
+    expect(actual, isA<Product>());
   });
 }
