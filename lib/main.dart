@@ -4,6 +4,7 @@ import 'package:shop_clean_arch/app/shop/infra/dependency_injection/dependency_i
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_detail_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/pages/products_overview_page.dart';
+import 'package:shop_clean_arch/app/shop/utils/app_routes.dart';
 import 'app/shop/presenter/auth/bloc/auth_bloc.dart';
 import 'app/shop/presenter/auth/pages/auth_page.dart';
 import 'app/shop/presenter/products_list/bloc/bloc/products_list_bloc.dart';
@@ -23,9 +24,6 @@ class MyApp extends StatelessWidget {
           create: (_) => getIt<AuthBloc>(),
           child: const AuthPage(),
         ),
-        BlocProvider<AuthBloc>(
-            create: (_) => getIt<AuthBloc>(),
-            child: const ProductOverViewPage()),
         BlocProvider<ProductsListBloc>(
             create: (_) => getIt<ProductsListBloc>(),
             child: const ProductOverViewPage()),
@@ -59,8 +57,8 @@ class MyApp extends StatelessWidget {
         ),
         home: AuthPage(),
         routes: {
-          '/detail': (context) => const ProductDetailPage(),
-          '/products': (context) => const ProductOverViewPage(),
+          AppRoutes.products: (context) => const ProductOverViewPage(),
+          AppRoutes.productDetail: (context) => const ProductDetailPage(),
         },
       ),
     );
