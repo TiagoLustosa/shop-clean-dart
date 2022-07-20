@@ -22,7 +22,7 @@ void main() {
     registerFallbackValue(AuthCredentials());
   });
 
-  test('should return a list of products', () async {
+  test('should return a list of products getAllProducts', () async {
     when(() => productRepositoryMock.getAllProducts()).thenAnswer(
         (_) async => Right(<ProductResultModel>[ProductResultModel()]));
 

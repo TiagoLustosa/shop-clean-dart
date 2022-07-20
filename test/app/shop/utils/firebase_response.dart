@@ -44,3 +44,13 @@ const fireBaseResponseList = """
 }
 ]
 """;
+
+const fireBaseResponseAdd = """
+{
+  "id": "-N6IjOzEkXxfAFzC0fQ1",
+  "name": "A Pan",
+  "price": 49.99,
+  "description": "Prepare any meal you want",
+  "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg"
+}
+""";

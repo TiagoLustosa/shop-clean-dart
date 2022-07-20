@@ -12,13 +12,10 @@ import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart'
 import 'package:shop_clean_arch/app/shop/utils/constants.dart';
 import '../../utils/firebase_response.dart';
 
-class DioMock extends Mock implements Dio {
-  final BaseOptions baseOptions;
-  DioMock(this.baseOptions);
-}
+class DioMock extends Mock implements Dio {}
 
 main() {
-  final dioMock = Dio(BaseOptions()); //DioMock(BaseOptions());
+  final dioMock = Dio(BaseOptions());
 
   final dioAdapter = DioAdapter(dio: dioMock);
   FirebaseDataSource firebaseDataSource = FirebaseDataSource(dioMock);
@@ -87,8 +84,24 @@ main() {
       ),
     );
     final result = await dioMock.get(firebaseURL);
-
     expect(result.statusCode, 200);
     expect(result.data, isA<List>());
+  });
+
+  test('should return a productResult model when addProduct', () async {
+    dioAdapter.onPost(
+      productBaseURL,
+      (server) => server.reply(
+        200,
+        fireBaseResponseAdd,
+        delay: Duration(seconds: 1),
+      ),
+      data: fireBaseResponseAdd,
+    );
+    final result =
+        await dioMock.post(productBaseURL, data: fireBaseResponseAdd);
+    expect(result.statusCode, 200);
+    expect(ProductResultModel.fromJson(jsonDecode(result.data)),
+        isA<ProductResultModel>());
   });
 }
