@@ -12,6 +12,7 @@ import '../../domain/usecases/product_usecases/add_product.dart';
 import '../../domain/usecases/product_usecases/get_product.dart';
 import '../../domain/usecases/product_usecases/get_products_list.dart';
 import '../../presenter/product/bloc/product_bloc.dart';
+import '../../presenter/product/bloc/product_event.dart';
 import '../../presenter/products_list/bloc/bloc/products_list_bloc.dart';
 import '../datasources/auth_datasource.dart';
 import '../datasources/product_datasource.dart';
@@ -35,14 +36,14 @@ void configureDependencies() {
   getIt.registerSingleton<AuthWithEmail>(
       AuthWithEmail(getIt<IAuthRepository>()));
   getIt.registerSingleton<GetProduct>(GetProduct(getIt<IProductRepository>()));
-  getIt.registerSingleton<GetProductsListUseCase>(
-      GetProductsListUseCase(getIt<IProductRepository>()));
   getIt.registerSingleton<AddProductUseCase>(
       AddProductUseCase(getIt<IProductRepository>()));
+  getIt.registerSingleton<GetProductsListUseCase>(
+      GetProductsListUseCase(getIt<IProductRepository>()));
   //Bloc
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt<AuthWithEmail>()));
   getIt.registerSingleton<ProductsListBloc>(
       ProductsListBloc(usecase: getIt<GetProductsListUseCase>()));
   getIt.registerSingleton<ProductBloc>(
-      ProductBloc(productUseCase: getIt<GetProduct>()));
+      ProductBloc(productUseCase: getIt<AddProductUseCase>()));
 }

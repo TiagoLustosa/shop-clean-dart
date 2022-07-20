@@ -14,7 +14,7 @@ main() {
   final productRepository = ProductRepositoryImplements(productDataSourceMock);
 
   setUp(() {
-    registerFallbackValue(Product());
+    registerFallbackValue(ProductResultModel());
   });
   test('should return a product result model', () async {
     when(() => productDataSourceMock.getProduct(any()))
@@ -56,7 +56,7 @@ main() {
   test('should return an error when addProduct', () async {
     when(() => productDataSourceMock.addProduct(any())).thenThrow((_) async =>
         ProductDataSourceException(message: 'Error while adding product'));
-    final result = await productRepository.addProduct(Product());
+    final result = await productRepository.addProduct(ProductResultModel());
     final actual = result.fold(id, id);
     expect(result.isLeft(), true);
     expect(actual, isA<ProductDataSourceException>());
@@ -65,8 +65,8 @@ main() {
   test('should return a product when addProduct', () async {
     when(() => productDataSourceMock.addProduct(any()))
         .thenAnswer((_) async => Product());
-    final result =
-        await productRepository.addProduct(Product(description: null));
+    final result = await productRepository
+        .addProduct(ProductResultModel(description: null));
     final actual = result.fold(id, id);
     expect(result.isRight(), true);
     expect(actual, isA<Product>());

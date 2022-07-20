@@ -60,10 +60,9 @@ class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
   }
 
   @override
-  Future<ProductResultModel> addProduct(Product product) async {
-    product as ProductResultModel;
+  Future<Product> addProduct(ProductResultModel product) async {
     final response = await dio.post('$productBaseURL.json',
-        data: json.encode(product.toJson()));
+        data: jsonEncode(product.toJson()));
     if (response.statusCode == 200) {
       return product;
     } else {

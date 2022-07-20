@@ -40,7 +40,7 @@ class ProductRepositoryImplements implements IProductRepository {
 
   @override
   Future<Either<IProductExceptions, Product>> addProduct(
-      Product product) async {
+      ProductResultModel product) async {
     try {
       await _productDataSource.addProduct(product);
     } on ProductDataSourceException catch (e) {

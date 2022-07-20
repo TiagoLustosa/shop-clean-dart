@@ -20,7 +20,7 @@ void main() {
     when(() => productRepositoryMock.addProduct(any())).thenAnswer(
       (_) async => Right(ProductResultModel()),
     );
-    final result = await sut(Product());
+    final result = await sut(ProductResultModel());
     final actual = result.fold(id, id);
     expect(actual, isA<ProductResultModel>());
     verify(() => productRepositoryMock.addProduct(any())).called(1);
@@ -30,7 +30,7 @@ void main() {
     when(() => productRepositoryMock.addProduct(any())).thenAnswer(
       (_) async => Left(ProductDataSourceException(message: 'Error')),
     );
-    var result = await sut(Product());
+    var result = await sut(ProductResultModel());
     final actual = result.fold(id, id);
     expect(result.isLeft(), true);
     expect(actual, isA<ProductDataSourceException>());

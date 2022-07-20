@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_clean_arch/app/shop/infra/dependency_injection/dependency_injection_config.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_detail_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid.dart';
+import 'package:shop_clean_arch/app/shop/presenter/product/pages/products_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/pages/products_overview_page.dart';
 import 'package:shop_clean_arch/app/shop/utils/app_routes.dart';
 import 'app/shop/presenter/auth/bloc/auth_bloc.dart';
 import 'app/shop/presenter/auth/pages/auth_page.dart';
+import 'app/shop/presenter/product/bloc/product_bloc.dart';
+import 'app/shop/presenter/product/pages/product_form_page.dart';
 import 'app/shop/presenter/products_list/bloc/bloc/products_list_bloc.dart';
 
 void main() async {
@@ -30,6 +33,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProductsListBloc>(
             create: (_) => getIt<ProductsListBloc>(),
             child: const ProductGrid()),
+        BlocProvider<ProductBloc>(
+            create: (_) => getIt<ProductBloc>(),
+            child: const ProductFormPage()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -55,10 +61,12 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: AuthPage(),
+        // home: ProductOverViewPage(),
         routes: {
-          AppRoutes.products: (context) => const ProductOverViewPage(),
+          AppRoutes.authOrHome: (context) => const ProductOverViewPage(),
           AppRoutes.productDetail: (context) => const ProductDetailPage(),
+          AppRoutes.products: (context) => const ProductsPage(),
+          AppRoutes.productForm: (context) => const ProductFormPage(),
         },
       ),
     );

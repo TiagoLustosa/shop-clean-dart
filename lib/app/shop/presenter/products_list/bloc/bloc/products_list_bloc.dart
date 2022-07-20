@@ -29,6 +29,6 @@ class ProductsListBloc extends Bloc<GetProductsList, ProductsListState> {
       GetProductDetail event, Emitter<ProductsListState> emit) async {
     emit(ProductsListLoading());
     final result = await usecase(NoParams());
-    result.fold((l) => null, (r) => ProductsListSuccess(r).products[0]);
+    result.fold((l) => null, (r) => ProductsListSuccess(r));
   }
 }

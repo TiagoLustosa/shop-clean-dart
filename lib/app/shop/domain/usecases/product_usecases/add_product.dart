@@ -6,14 +6,14 @@ import '../../exceptions/product_exceptions.dart';
 import '../../repositories/product_repository.dart';
 import '../base_usecase/base_usecase.dart';
 
-class AddProductUseCase implements UseCase<Product, Product> {
+class AddProductUseCase implements UseCase<Product, ProductResultModel> {
   final IProductRepository _productRepository;
 
   AddProductUseCase(this._productRepository);
 
   @override
   Future<Either<IProductExceptions, ProductResultModel>> call(
-      Product product) async {
+      ProductResultModel product) async {
     final productResult = await _productRepository.addProduct(product);
     return productResult.fold(
         (l) => Left(ProductDataSourceException(message: l.toString())),
