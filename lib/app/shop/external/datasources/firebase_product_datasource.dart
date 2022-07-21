@@ -1,38 +1,17 @@
 import 'dart:convert';
-
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:shop_clean_arch/app/shop/domain/entities/auth_credentials.dart';
-import 'package:shop_clean_arch/app/shop/domain/exceptions/auth_exceptions.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/product_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/product_datasource.dart';
-import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 import 'package:shop_clean_arch/app/shop/utils/constants.dart';
-
 import '../../domain/entities/product.dart';
-import '../../infra/datasources/auth_datasource.dart';
 
-class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
+@Injectable(as: IProductDataSource)
+class FirebaseProductDataSource implements IProductDataSource {
   final Dio dio;
-
-  FirebaseDataSource(this.dio);
+  FirebaseProductDataSource(this.dio);
   @override
-  Future<AuthResultModel> authWithEmail(AuthCredentials credentials) async {
-    final response = await dio.post(firebaseURL, data: {
-      'email': credentials.email,
-      'password': credentials.password,
-      'returnSecureToken': true
-    });
-    if (response.statusCode == 200) {
-      return AuthResultModel.fromMap(response.data);
-    } else {
-      throw AuthDataSourceException(
-          message:
-              'Error while trying to authenticate with email and password');
-    }
-  }
-
   @override
   Future<ProductResultModel> getProduct(String id) async {
     final response = await dio.get('$productBaseURL/$id.json');
@@ -49,8 +28,10 @@ class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
     final response = await dio.get('$productBaseURL.json');
     if (response.statusCode == 200) {
       return (response.data as Map<String, dynamic>)
-          .map(
-              (key, value) => MapEntry(key, ProductResultModel.fromJson(value)))
+          .map((key, value) {
+            value['id'] = key;
+            return MapEntry(key, ProductResultModel.fromJson(value));
+          })
           .values
           .toList();
     } else {
@@ -64,7 +45,7 @@ class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
     final response = await dio.post('$productBaseURL.json',
         data: jsonEncode(product.toJson()));
     if (response.statusCode == 200) {
-      return product;
+      return response.data;
     } else {
       throw ProductDataSourceException(
           message: 'Error while trying to add product');
@@ -72,9 +53,15 @@ class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
   }
 
   @override
-  Future<bool> deleteProduct(int id) {
-    // TODO: implement deleteProduct
-    throw UnimplementedError();
+  Future<ProductResultModel> updateProduct(ProductResultModel product) async {
+    final response = await dio.put('$productBaseURL/${product.id}.json',
+        data: jsonEncode(product.toJson()));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw ProductDataSourceException(
+          message: 'Error while trying to update product');
+    }
   }
 
   @override
@@ -84,8 +71,13 @@ class FirebaseDataSource implements IAuthDataSource, IProductDataSource {
   }
 
   @override
-  Future<ProductResultModel> updateProduct(ProductResultModel product) {
-    // TODO: implement updateProduct
-    throw UnimplementedError();
+  Future<bool> deleteProduct(String id) async {
+    final response = await dio.delete('$productBaseURL/$id.json');
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw ProductDataSourceException(
+          message: 'Error while trying to delete product with id $id');
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:shop_clean_arch/app/shop/presenter/product/components/product_gr
 import 'package:shop_clean_arch/app/shop/presenter/product/pages/products_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/pages/products_overview_page.dart';
 import 'package:shop_clean_arch/app/shop/utils/app_routes.dart';
+import 'app/injector.dart';
 import 'app/shop/presenter/auth/bloc/auth_bloc.dart';
 import 'app/shop/presenter/auth/pages/auth_page.dart';
 import 'app/shop/presenter/product/bloc/product_bloc.dart';
@@ -13,7 +14,9 @@ import 'app/shop/presenter/product/pages/product_form_page.dart';
 import 'app/shop/presenter/products_list/bloc/bloc/products_list_bloc.dart';
 
 void main() async {
-  configureDependencies();
+  //configureDependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+  configureInjection();
   runApp(const MyApp());
 }
 
@@ -24,17 +27,17 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (_) => getIt<AuthBloc>(),
+          create: (_) => injector<AuthBloc>(),
           child: const AuthPage(),
         ),
         BlocProvider<ProductsListBloc>(
-            create: (_) => getIt<ProductsListBloc>(),
+            create: (_) => injector<ProductsListBloc>(),
             child: const ProductOverViewPage()),
         BlocProvider<ProductsListBloc>(
-            create: (_) => getIt<ProductsListBloc>(),
+            create: (_) => injector<ProductsListBloc>(),
             child: const ProductGrid()),
         BlocProvider<ProductBloc>(
-            create: (_) => getIt<ProductBloc>(),
+            create: (_) => injector<ProductBloc>(),
             child: const ProductFormPage()),
       ],
       child: MaterialApp(

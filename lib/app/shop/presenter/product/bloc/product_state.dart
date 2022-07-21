@@ -3,8 +3,13 @@ import '../../../domain/entities/product.dart';
 abstract class ProductState {}
 
 class ProductSuccess extends ProductState {
-  Product? product;
+  final Product? product;
   ProductSuccess(this.product);
+}
+
+class ProductDeletedSuccess extends ProductState {
+  final bool deleted;
+  ProductDeletedSuccess(this.deleted);
 }
 
 class ProductStart implements ProductState {

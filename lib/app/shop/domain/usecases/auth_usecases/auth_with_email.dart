@@ -1,10 +1,12 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/auth_credentials.dart';
 import '../../entities/auth.dart';
 import '../../exceptions/auth_exceptions.dart';
 import '../../repositories/auth_repository.dart';
 import '../base_usecase/base_usecase.dart';
 
+@Injectable(as: UseCase<Auth, AuthCredentials>)
 class AuthWithEmail implements UseCase<Auth, AuthCredentials> {
   final IAuthRepository _authRepository;
 

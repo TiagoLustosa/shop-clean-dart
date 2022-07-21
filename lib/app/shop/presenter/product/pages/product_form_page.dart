@@ -85,18 +85,29 @@ class _ProductFormPageState extends State<ProductFormPage> {
     _formKey.currentState?.save();
 
     setState(() => _isLoading = true);
-
     try {
-      BlocProvider.of<ProductBloc>(
-        context,
-      ).add(AddProduct(ProductResultModel(
-        name: _formData['name'] as String,
-        price: _formData['price'] as double,
-        description: _formData['description'] as String,
-        imageUrl: _formData['imageUrl'] as String,
-      )));
+      if (_formData['id'] != null) {
+        BlocProvider.of<ProductBloc>(
+          context,
+        ).add(UpdateProduct(ProductResultModel(
+          id: _formData['id'] as String,
+          name: _formData['name'] as String,
+          price: _formData['price'] as double,
+          description: _formData['description'] as String,
+          imageUrl: _formData['imageUrl'] as String,
+        )));
+      } else {
+        BlocProvider.of<ProductBloc>(
+          context,
+        ).add(AddProduct(ProductResultModel(
+          name: _formData['name'] as String,
+          price: _formData['price'] as double,
+          description: _formData['description'] as String,
+          imageUrl: _formData['imageUrl'] as String,
+        )));
 
-      Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      }
     } catch (error) {
       await showDialog<void>(
         context: context,

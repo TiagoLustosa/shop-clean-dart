@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/auth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/auth_datasource.dart';
@@ -6,6 +7,7 @@ import '../../domain/entities/auth_credentials.dart';
 import '../../domain/exceptions/auth_exceptions.dart';
 import '../../domain/repositories/auth_repository.dart';
 
+@Injectable(as: IAuthRepository)
 class AuthRepositoryImplements implements IAuthRepository {
   final IAuthDataSource _authDataSource;
 

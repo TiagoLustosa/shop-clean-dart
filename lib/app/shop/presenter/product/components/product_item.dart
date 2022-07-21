@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
+import 'package:shop_clean_arch/app/shop/presenter/product/bloc/product_event.dart';
 
 import '../../../utils/app_routes.dart';
+import '../../products_list/bloc/bloc/products_list_bloc.dart';
+import '../bloc/product_bloc.dart';
 
 class ProductItem extends StatelessWidget {
   final ProductResultModel product;
@@ -54,18 +58,17 @@ class ProductItem extends StatelessWidget {
                   ),
                 ).then((value) async {
                   if (value ?? false) {
-                    // try {
-                    //   await BlocProvider.of<ProductBloc>(
-                    //     context,
-                    //     listen: false,
-                    //   ).removeProduct(product);
-                    // } on HttpException catch (error) {
-                    //   msg.showSnackBar(
-                    //     SnackBar(
-                    //       content: Text(error.toString()),
-                    //     ),
-                    //   );
-                    // }
+                    try {
+                      BlocProvider.of<ProductBloc>(
+                        context,
+                      ).add(DeleteProduct(product.id!));
+                    } catch (error) {
+                      msg.showSnackBar(
+                        SnackBar(
+                          content: Text(error.toString()),
+                        ),
+                      );
+                    }
                   }
                 });
               },

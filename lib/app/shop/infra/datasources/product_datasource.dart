@@ -5,7 +5,7 @@ abstract class IProductDataSource {
   Future<ProductResultModel> getProduct(String id);
   Future<List<ProductResultModel>> getAllProducts();
   Future<Product> addProduct(ProductResultModel product);
-  Future<ProductResultModel> updateProduct(ProductResultModel product);
+  Future<Product> updateProduct(ProductResultModel product);
   Future<ProductResultModel> favoriteProduct(int id);
-  Future<bool> deleteProduct(int id);
+  Future<bool> deleteProduct(String id);
 }

@@ -65,10 +65,46 @@ main() {
   test('should return a product when addProduct', () async {
     when(() => productDataSourceMock.addProduct(any()))
         .thenAnswer((_) async => Product());
-    final result = await productRepository
-        .addProduct(ProductResultModel(description: null));
+    final result = await productRepository.addProduct(ProductResultModel());
     final actual = result.fold(id, id);
     expect(result.isRight(), true);
     expect(actual, isA<Product>());
+  });
+
+  test('should return a product when UpdateProduct', () async {
+    when(() => productDataSourceMock.updateProduct(any()))
+        .thenAnswer((_) async => Product());
+    final result = await productRepository.updateProduct(ProductResultModel());
+    final actual = result.fold(id, id);
+    expect(result.isRight(), true);
+    expect(actual, isA<Product>());
+  });
+
+  test('should return an error when UpdateProduct', () async {
+    when(() => productDataSourceMock.updateProduct(any())).thenThrow(
+        (_) async => ProductDataSourceException(
+            message: 'Error while updating product'));
+    final result = await productRepository.updateProduct(ProductResultModel());
+    final actual = result.fold(id, id);
+    expect(result.isLeft(), true);
+    expect(actual, isA<ProductDataSourceException>());
+  });
+
+  test('should return true when product deleted success', () async {
+    when(() => productDataSourceMock.deleteProduct(any()))
+        .thenAnswer((_) async => true);
+    final result = await productRepository.deleteProduct('id');
+    final actual = result.fold(id, id);
+    expect(result.isRight(), true);
+    expect(actual, isA<bool>());
+  });
+
+  test('should return an erro when product deleted', () async {
+    when(() => productDataSourceMock.deleteProduct(any()))
+        .thenThrow(ProductDataSourceException(message: 'Error'));
+    final result = await productRepository.deleteProduct('id');
+    final actual = result.fold(id, id);
+    expect(result.isLeft(), true);
+    expect(actual, isA<ProductDataSourceException>());
   });
 }

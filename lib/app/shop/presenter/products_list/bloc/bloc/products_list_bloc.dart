@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import '../../../../domain/usecases/base_usecase/base_usecase.dart';
 import '../../../../infra/models/product_result_model.dart';
 part 'products_list_event.dart';
 part 'products_list_state.dart';
 
+@injectable
 class ProductsListBloc extends Bloc<GetProductsList, ProductsListState> {
-  final UseCase usecase;
-  final ProductResultModel? productResultModel;
-  ProductsListBloc({required this.usecase, this.productResultModel})
-      : super(ProductsListInitial()) {
+  final UseCase<List<ProductResultModel>, NoParams> usecase;
+  ProductsListBloc({required this.usecase}) : super(ProductsListInitial()) {
     on<GetProductsList>(getProductsList);
     on<GetProductDetail>(getProductDetail);
   }

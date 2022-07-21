@@ -11,7 +11,7 @@ class ProductRepositoryMock extends Mock implements IProductRepository {}
 
 void main() {
   final productRepositoryMock = ProductRepositoryMock();
-  final sut = GetProduct(productRepositoryMock);
+  final sut = GetProductUseCase(productRepositoryMock);
   setUp(() {
     registerFallbackValue(AuthCredentials());
   });

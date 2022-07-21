@@ -9,7 +9,8 @@ abstract class IProductRepository {
   Future<Either<IProductExceptions, List<ProductResultModel>>> getAllProducts();
   Future<Either<IProductExceptions, Product>> addProduct(
       ProductResultModel product);
-  Future<Either<IProductExceptions, Product>> updateProduct(Product product);
-  Future<Either<IProductExceptions, Product>> favoriteProduct(int id);
-  Future<Either<IProductExceptions, bool>> deleteProduct(int id);
+  Future<Either<IProductExceptions, Product>> updateProduct(
+      ProductResultModel product);
+  Future<Either<IProductExceptions, Product>> favoriteProduct(String id);
+  Future<Either<IProductExceptions, bool>> deleteProduct(String id);
 }

@@ -1,11 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/get_products_list_usecase_contract.dart';
 import '../../../infra/models/product_result_model.dart';
 import '../../exceptions/product_exceptions.dart';
 import '../../repositories/product_repository.dart';
 import '../base_usecase/base_usecase.dart';
 
-class GetProductsListUseCase
-    implements UseCase<List<ProductResultModel>, NoParams> {
+@Injectable(as: IGetProductsListUseCase)
+class GetProductsListUseCase implements IGetProductsListUseCase {
   final IProductRepository _productRepository;
 
   GetProductsListUseCase(this._productRepository);

@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shop_clean_arch/app/shop/presenter/auth/bloc/auth_state.dart';
+import '../../../domain/entities/auth.dart';
+import '../../../domain/entities/auth_credentials.dart';
 import '../../../domain/usecases/base_usecase/base_usecase.dart';
 import 'auth_event.dart';
 
+@injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final UseCase usecase;
-  AuthBloc(this.usecase) : super(const AuthStart()) {
+  final UseCase<Auth, AuthCredentials> usecase;
+  AuthBloc({required this.usecase}) : super(const AuthStart()) {
     on<AuthWithEmailSend>(authWithEmailSend);
   }
   FutureOr<void> authWithEmailSend(

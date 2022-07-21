@@ -2,8 +2,8 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shop_clean_arch/app/shop/domain/entities/auth.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/auth_credentials.dart';
-import 'package:shop_clean_arch/app/shop/domain/exceptions/auth_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/auth_repository.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/auth_usecases/auth_with_email.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
@@ -27,7 +27,7 @@ void main() {
   });
 
   blocTest<AuthBloc, AuthState>('should emit error state',
-      build: () => AuthBloc(usecase),
+      build: () => AuthBloc(usecase: usecase),
       act: (authBloc) => authBloc.add(AuthWithEmailSend(AuthCredentials())),
       expect: () => [
             isA<AuthLoading>(),
@@ -37,7 +37,7 @@ void main() {
       build: () {
         when(() => authWithEmailRepositoryMock.authWithEmail(any()))
             .thenAnswer((_) async => Right(AuthResultModel()));
-        return AuthBloc(usecase);
+        return AuthBloc(usecase: usecase);
       },
       act: (authBloc) =>
           authBloc.add(AuthWithEmailSend(AuthCredentials('a', 'a'))),

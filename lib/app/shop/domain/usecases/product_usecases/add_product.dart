@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
-
+import 'package:injectable/injectable.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/add_product_usecase_contract.dart';
 import '../../../infra/models/product_result_model.dart';
-import '../../entities/product.dart';
 import '../../exceptions/product_exceptions.dart';
 import '../../repositories/product_repository.dart';
-import '../base_usecase/base_usecase.dart';
 
-class AddProductUseCase implements UseCase<Product, ProductResultModel> {
+@Injectable(as: IAddProductUseCase)
+class AddProductUseCase implements IAddProductUseCase {
   final IProductRepository _productRepository;
 
   AddProductUseCase(this._productRepository);
