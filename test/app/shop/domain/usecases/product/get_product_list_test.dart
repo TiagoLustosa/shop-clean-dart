@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -11,7 +10,7 @@ import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/get_pr
 import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/get_products_list.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 
-import '../../utils/firebase_response.dart';
+import '../../../utils/firebase_response.dart';
 
 class ProductRepositoryMock extends Mock implements IProductRepository {}
 

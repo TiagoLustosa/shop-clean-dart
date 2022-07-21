@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/delete_product_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/delete_product_usecase_contract.dart';
 import '../../exceptions/product_exceptions.dart';
 import '../../repositories/product_repository.dart';
 

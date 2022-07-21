@@ -1,10 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/product_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/product_repository.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/base_usecase/base_usecase.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/update_product_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/update_product_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 
 @Injectable(as: IUpdateProductUseCase)

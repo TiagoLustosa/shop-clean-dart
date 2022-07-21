@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/add_product_usecase_contract.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/delete_product_usecase_contract.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/get_product_usecase_contract.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/contracts/update_product_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/add_product_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/delete_product_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/get_product_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/update_product_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/bloc/product_event.dart';
 import 'product_state.dart';
 

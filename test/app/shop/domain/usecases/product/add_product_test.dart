@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/product_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/product_repository.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/add_product.dart';
