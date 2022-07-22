@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/get_products_list_usecase_contract.dart';
 import '../../../infra/models/product_result_model.dart';
 import '../../exceptions/product_exceptions.dart';
@@ -13,7 +14,7 @@ class GetProductsListUseCase implements IGetProductsListUseCase {
   GetProductsListUseCase(this._productRepository);
 
   @override
-  Future<Either<IProductExceptions, List<ProductResultModel>>> call(
+  Future<Either<IProductExceptions, List<Product>>> call(
       NoParams params) async {
     final products = await _productRepository.getAllProducts();
     return products.fold(

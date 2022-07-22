@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/contracts/get_product_usecase_contract.dart';
-import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 import '../../exceptions/product_exceptions.dart';
 import '../../repositories/product_repository.dart';
 
@@ -12,7 +12,7 @@ class GetProductUseCase implements IGetProductUseCase {
   GetProductUseCase(this._productRepository);
 
   @override
-  Future<Either<IProductExceptions, ProductResultModel>> call(id) async {
+  Future<Either<IProductExceptions, Product>> call(id) async {
     if (id.isEmpty) {
       return Left(InvalidIdException());
     }

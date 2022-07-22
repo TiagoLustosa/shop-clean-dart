@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
+import 'package:shop_clean_arch/app/shop/presenter/auth/bloc/auth_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid.dart';
 import '../../../domain/usecases/base_usecase/base_usecase.dart';
 import '../../../utils/app_routes.dart';
