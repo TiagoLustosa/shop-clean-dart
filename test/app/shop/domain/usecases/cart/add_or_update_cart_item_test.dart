@@ -6,7 +6,7 @@ import 'package:shop_clean_arch/app/shop/domain/entities/cart_item.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/cart_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/cart_repository.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/add_to_cart_usecase.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/add_or_update_cart_usecase.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/cart_item_result_model.dart';
 
 class CartRepositoryMock extends Mock implements ICartRepository {}

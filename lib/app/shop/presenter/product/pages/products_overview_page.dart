@@ -44,7 +44,7 @@ class _ProductOverViewPageState extends State<ProductOverViewPage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.authOrHome);
+              Navigator.of(context).pushNamed(AppRoutes.cart);
             },
             icon: const Icon(Icons.shopping_cart),
           ),

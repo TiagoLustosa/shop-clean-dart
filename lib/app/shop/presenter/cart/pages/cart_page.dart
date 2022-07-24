@@ -1,65 +1,80 @@
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/get_from_cart_usecase.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_state.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/components/cart_item_widget.dart';
 
-// class CartPage extends StatelessWidget {
-//   const CartPage({Key? key}) : super(key: key);
+class CartPage extends StatelessWidget {
+  const CartPage({Key? key}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final Cart cart = Provider.of(context);
-//     final items = cart.items.values.toList();
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Carrinho'),
-//       ),
-//       body: Column(
-//         children: [
-//           Card(
-//             margin: const EdgeInsets.symmetric(
-//               horizontal: 15,
-//               vertical: 25,
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.all(10),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Text(
-//                     'Total',
-//                     style: TextStyle(
-//                       fontSize: 20,
-//                     ),
-//                   ),
-//                   SizedBox(width: 10),
-//                   Chip(
-//                     backgroundColor: Theme.of(context).primaryColor,
-//                     label: Text(
-//                       'R\$${cart.totalAmount.toStringAsFixed(2)}'
-//                       "aaa",
-//                       style: TextStyle(
-//                         color:
-//                             Theme.of(context).primaryTextTheme.headline6?.color,
-//                       ),
-//                     ),
-//                   ),
-//                   Spacer(),
-//                   CartButton(cart: cart),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             child: ListView.builder(
-//               itemCount: items.length,
-//               itemBuilder: (ctx, i) => CartItemWidget(items[i]),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Carrinho'),
+      ),
+      body: BlocBuilder<CartBloc, CartState>(
+        bloc: BlocProvider.of<CartBloc>(context)
+          ..add(GetFromCart('userIdAqui')),
+        builder: (context, state) => Column(
+          children: [
+            if (state is CartLoading)
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+            Card(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 25,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Chip(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      label: Text(
+                        // 'R\$${cart.totalAmount.toStringAsFixed(2)}'
+                        "aaa",
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .headline6
+                              ?.color,
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    // CartButton(cart: cart),
+                  ],
+                ),
+              ),
+            ),
+            if (state is CartSuccess)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: state.cart.cartItemList!.length,
+                  itemBuilder: (context, index) => CartItemWidget(
+                    state.cart.cartItemList![index],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 // class CartButton extends StatefulWidget {
 //   const CartButton({

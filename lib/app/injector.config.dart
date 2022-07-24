@@ -17,8 +17,9 @@ import 'shop/domain/repositories/cart_repository.dart' as _i11;
 import 'shop/domain/repositories/product_repository.dart' as _i17;
 import 'shop/domain/usecases/auth_usecases/auth_with_email.dart' as _i24;
 import 'shop/domain/usecases/base_usecase/base_usecase.dart' as _i21;
-import 'shop/domain/usecases/cart_usecases/add_to_cart_usecase.dart' as _i27;
-import 'shop/domain/usecases/cart_usecases/contracts/add_to_cart_usecase_contract.dart'
+import 'shop/domain/usecases/cart_usecases/add_or_update_cart_usecase.dart'
+    as _i27;
+import 'shop/domain/usecases/cart_usecases/contracts/add_or_update_cart_usecase_contract.dart'
     as _i26;
 import 'shop/domain/usecases/cart_usecases/contracts/get_from_cart_usecase_contract.dart'
     as _i13;

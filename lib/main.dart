@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/pages/cart_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_detail_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid_item.dart';
@@ -42,6 +43,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<CartBloc>(
             create: (_) => injector<CartBloc>(),
             child: const ProductGridItem()),
+        BlocProvider<CartBloc>(
+          create: (_) => injector<CartBloc>(),
+          child: const CartPage(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -73,6 +78,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.productDetail: (context) => const ProductDetailPage(),
           AppRoutes.products: (context) => const ProductsPage(),
           AppRoutes.productForm: (context) => const ProductFormPage(),
+          AppRoutes.cart: (context) => const CartPage(),
         },
       ),
     );

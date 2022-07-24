@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/cart_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/cart_repository.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts/add_to_cart_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts/add_or_update_cart_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/cart_item_result_model.dart';
 
 @Injectable(as: IAddOrUpdateCartUseCase)
