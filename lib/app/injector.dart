@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'injector.config.dart';
 
@@ -19,6 +20,11 @@ abstract class RegisterModule {
     return dio;
   }
 
+  // @singleton
+  // @preResolve
+  // Future<SharedPreferences> get sharedPreferences =>
+  //     SharedPreferences.getInstance();
+
   @prod
   @dev
   @singleton
@@ -34,5 +40,6 @@ abstract class RegisterModule {
   preferRelativeImports: true,
   asExtension: false,
 )
-GetIt configureInjection([String environment = Environment.prod]) =>
+Future<void> configureInjection(
+        [String environment = Environment.prod]) async =>
     $initGetIt(injector, environment: environment);

@@ -52,6 +52,6 @@ void main() {
     final actual = result.fold(id, id);
     expect(result.isRight(), true);
     expect(actual, isA<List<ProductResultModel>>());
-    verify(() => productRepositoryMock.getAllProducts()).called(1);
+    verify(() => productRepositoryMock.getAllProducts()).called(2);
   });
 }

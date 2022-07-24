@@ -55,9 +55,9 @@ class ProductRepositoryImplements implements IProductRepository {
 
   @override
   Future<Either<IProductExceptions, Product>> updateProduct(
-      ProductResultModel product) async {
+      Product product) async {
     try {
-      await _productDataSource.updateProduct(product);
+      await _productDataSource.updateProduct(product as ProductResultModel);
     } on ProductDataSourceException catch (e) {
       return Left(e);
     } catch (e) {

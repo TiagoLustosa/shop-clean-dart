@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_clean_arch/app/shop/infra/dependency_injection/dependency_injection_config.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_detail_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid.dart';
+import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid_item.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/pages/products_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/pages/products_overview_page.dart';
 import 'package:shop_clean_arch/app/shop/utils/app_routes.dart';
@@ -13,10 +14,9 @@ import 'app/shop/presenter/product/bloc/product_bloc.dart';
 import 'app/shop/presenter/product/pages/product_form_page.dart';
 import 'app/shop/presenter/products_list/bloc/bloc/products_list_bloc.dart';
 
-void main() async {
-  //configureDependencies();
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureInjection();
+  await configureInjection();
   runApp(const MyApp());
 }
 
@@ -39,6 +39,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProductBloc>(
             create: (_) => injector<ProductBloc>(),
             child: const ProductFormPage()),
+        BlocProvider<CartBloc>(
+            create: (_) => injector<CartBloc>(),
+            child: const ProductGridItem()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

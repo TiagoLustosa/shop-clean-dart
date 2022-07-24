@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 import 'package:shop_clean_arch/app/shop/utils/app_routes.dart';
 import '../../../infra/models/product_result_model.dart';
 
 class ProductGridItem extends StatelessWidget {
-  final ProductResultModel product;
+  final ProductResultModel? product;
 
-  const ProductGridItem({super.key, required this.product});
+  const ProductGridItem({super.key, this.product});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,13 +23,15 @@ class ProductGridItem extends StatelessWidget {
               onPressed: () {},
             ),
             title: Text(
-              product.name!,
+              product!.name!,
               textAlign: TextAlign.center,
             ),
             trailing: IconButton(
               icon: const Icon(Icons.shopping_cart),
               color: Theme.of(context).colorScheme.surface,
-              onPressed: () {},
+              onPressed: () => BlocProvider.of<CartBloc>(context).add(
+                AddOrUpdateCart(product!, 'userIdAqui'),
+              ),
               // onPressed: () {
               //   cart.addItem(product);
               //   ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -53,7 +58,7 @@ class ProductGridItem extends StatelessWidget {
               );
             },
             child: Image.network(
-              product.imageUrl!,
+              product!.imageUrl!,
               fit: BoxFit.cover,
             ),
           ),

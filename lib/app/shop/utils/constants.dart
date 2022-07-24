@@ -6,3 +6,5 @@ const productBaseURL =
     'https://shop-cod3r-eb636-default-rtdb.firebaseio.com/products';
 const orderBaseURL =
     'https://shop-cod3r-eb636-default-rtdb.firebaseio.com/orders';
+
+const cartBaseURL = 'https://shop-cod3r-eb636-default-rtdb.firebaseio.com/cart';

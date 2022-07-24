@@ -2,15 +2,11 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/product_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/product_repository.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/base_usecase/base_usecase.dart';
-import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/get_product.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/product_usecases/get_products_list.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
-import 'package:shop_clean_arch/app/shop/presenter/product/bloc/product_bloc.dart';
-import 'package:shop_clean_arch/app/shop/presenter/product/bloc/product_state.dart';
 import 'package:shop_clean_arch/app/shop/presenter/products_list/bloc/bloc/products_list_bloc.dart';
 
 class ProductBlocMock extends MockBloc<GetProductsList, ProductsListState>
@@ -25,8 +21,6 @@ class ProductRepositoryMock extends Mock implements IProductRepository {}
 void main() {
   final productRepository = ProductRepositoryMock();
   final usecase = GetProductsListUseCase(productRepository);
-  final productBloc = ProductBlocMock(usecase);
-
   setUp(() {
     registerFallbackValue([]);
   });
@@ -39,7 +33,7 @@ void main() {
       build: () {
         when(() => productRepository.getAllProducts())
             .thenAnswer((_) async => Left(EmptyList()));
-        return ProductsListBloc(usecase: usecase);
+        return ProductsListBloc(productsListUseCase: usecase);
       },
       act: (productBloc) => productBloc.add(GetProductsList()),
       expect: () => [
@@ -51,7 +45,7 @@ void main() {
       build: () {
         when(() => productRepository.getAllProducts())
             .thenAnswer((_) async => Right(products));
-        return ProductsListBloc(usecase: usecase);
+        return ProductsListBloc(productsListUseCase: usecase);
       },
       act: (productBloc) => productBloc.add(GetProductsList()),
       expect: () => [
@@ -64,7 +58,7 @@ void main() {
       build: () {
         when(() => productRepository.getAllProducts())
             .thenAnswer((_) async => Right(products));
-        return ProductsListBloc(usecase: usecase);
+        return ProductsListBloc(productsListUseCase: usecase);
       },
       act: (productBloc) => productBloc.add(GetProductsList()),
       expect: () {

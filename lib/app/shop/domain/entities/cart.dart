@@ -1,12 +1,16 @@
 import 'cart_item.dart';
 
 class Cart {
-  final String userId;
-  final List<CartItem> cartItemList;
+  final String? userId;
+  final List<CartItem>? cartItemList;
+  final double? totalPrice;
+  final int? totalItems;
 
   Cart({
-    required this.userId,
-    required this.cartItemList,
+    this.userId,
+    this.cartItemList,
+    this.totalPrice,
+    this.totalItems,
   });
 
   // : totalPrice = _calculateTotalPrice(items),

@@ -11,7 +11,7 @@ import '../../domain/entities/product.dart';
 class FirebaseProductDataSource implements IProductDataSource {
   final Dio dio;
   FirebaseProductDataSource(this.dio);
-  @override
+
   @override
   Future<ProductResultModel> getProduct(String id) async {
     final response = await dio.get('$productBaseURL/$id.json');

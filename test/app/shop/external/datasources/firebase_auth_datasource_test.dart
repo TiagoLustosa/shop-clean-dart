@@ -25,7 +25,6 @@ main() {
     'password': authCredentials.password,
     'returnSecureToken': true
   };
-  Response<dynamic> response;
   setUp(() {
     registerFallbackValue(AuthCredentials());
   });
@@ -35,7 +34,7 @@ main() {
       (server) => server.reply(
         200,
         jsonDecode(firebaseResponse),
-        delay: Duration(seconds: 1),
+        delay: const Duration(seconds: 1),
       ),
       data: Matchers.any,
     );
@@ -49,7 +48,7 @@ main() {
       (server) => server.reply(
         201,
         firebaseResponse,
-        delay: Duration(seconds: 1),
+        delay: const Duration(seconds: 1),
       ),
       data: userCredentials,
     );
@@ -63,7 +62,7 @@ main() {
       (server) => server.reply(
         201,
         firebaseResponse,
-        delay: Duration(seconds: 1),
+        delay: const Duration(seconds: 1),
       ),
       data: userCredentials,
     );

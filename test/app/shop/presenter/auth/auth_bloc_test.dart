@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shop_clean_arch/app/shop/domain/entities/auth.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/auth_credentials.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/auth_repository.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/auth_usecases/auth_with_email.dart';
