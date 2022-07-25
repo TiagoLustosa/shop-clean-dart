@@ -23,7 +23,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
   FutureOr<void> addOrUpdateCart(AddOrUpdateCart event, Emitter emit) async {
     emit(CartLoading());
-    final result = await addOrUpdateCartUseCase(event.product);
+    final result =
+        await addOrUpdateCartUseCase(event.product, userId: event.userId);
     emit(result.fold(
       (l) => CartError(l),
       (r) => CartSuccess(r),

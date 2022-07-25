@@ -8,15 +8,15 @@ class AuthResultModel extends Auth {
   final String? token;
   final String? userId;
   final String? email;
-  final DateTime? expiryDate;
-  final Timer? logoutTimer;
+  // final DateTime? expiryDate;
+  // final Timer? logoutTimer;
 
   AuthResultModel({
     this.token,
     this.userId,
     this.email,
-    this.expiryDate,
-    this.logoutTimer,
+    //  this.expiryDate,
+    //  this.logoutTimer,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,9 +34,9 @@ class AuthResultModel extends Auth {
       token: map['idToken'],
       userId: map['localId'],
       email: map['email'],
-      expiryDate:
-          DateTime.now().add(Duration(seconds: int.parse(map['expiresIn']))),
-      logoutTimer: map['logoutTimer'],
+      //   expiryDate:
+      //      DateTime.now().add(Duration(seconds: int.parse(map['expiresIn']))),
+      //   logoutTimer: map['logoutTimer'],
     );
   }
 

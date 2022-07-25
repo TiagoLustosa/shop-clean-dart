@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_clean_arch/app/injector.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/get_from_cart_usecase.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_state.dart';
@@ -8,6 +13,15 @@ import 'package:shop_clean_arch/app/shop/presenter/cart/components/cart_item_wid
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
+  AuthResultModel getUserId() {
+    final prefs = injector.get<SharedPreferences>();
+    final authResult = prefs.getString('userLogged');
+    final json = jsonDecode(authResult!);
+    AuthResultModel auth = AuthResultModel(
+        userId: json['userId'], token: json['token'], email: json['email']);
+
+    return auth;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +42,7 @@ class CartPage extends StatelessWidget {
         },
         child: BlocBuilder<CartBloc, CartState>(
           bloc: BlocProvider.of<CartBloc>(context)
-            ..add(GetFromCart('userIdAqui')),
+            ..add(GetFromCart(getUserId().userId.toString())),
           builder: (context, state) => Column(
             children: [
               if (state is CartLoading)

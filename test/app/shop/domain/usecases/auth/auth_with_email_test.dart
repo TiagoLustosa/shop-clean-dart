@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/auth_credentials.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/auth_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/auth_repository.dart';
@@ -9,9 +10,13 @@ import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 
 class AuthRepositoryMock extends Mock implements IAuthRepository {}
 
+class SharedPreferencesMock extends Mock implements SharedPreferences {}
+
 void main() {
   final authRepository = AuthRepositoryMock();
-  final sut = AuthWithEmail(authRepository);
+  final sharedPreferences = SharedPreferencesMock();
+
+  final sut = AuthWithEmail(authRepository, sharedPreferences);
   setUp(() {
     registerFallbackValue(AuthCredentials());
   });

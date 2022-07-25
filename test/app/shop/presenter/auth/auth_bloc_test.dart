@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/auth_credentials.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/auth_repository.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/auth_usecases/auth_with_email.dart';
@@ -14,12 +15,16 @@ class AuthBlocMock extends MockBloc<AuthEvent, AuthState> implements AuthBloc {}
 
 class AuthWithEmailRepositoryMock extends Mock implements IAuthRepository {}
 
+class SharedPreferencesMock extends Mock implements SharedPreferences {}
+
 void main() {
   setUp(() {
     registerFallbackValue(AuthCredentials());
   });
   final authWithEmailRepositoryMock = AuthWithEmailRepositoryMock();
-  final usecase = AuthWithEmail(authWithEmailRepositoryMock);
+  final sharedPreferencesMock = SharedPreferencesMock();
+  final usecase =
+      AuthWithEmail(authWithEmailRepositoryMock, sharedPreferencesMock);
 
   setUp(() {
     registerFallbackValue(AuthCredentials());

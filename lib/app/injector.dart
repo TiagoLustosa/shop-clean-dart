@@ -20,10 +20,10 @@ abstract class RegisterModule {
     return dio;
   }
 
-  // @singleton
-  // @preResolve
-  // Future<SharedPreferences> get sharedPreferences =>
-  //     SharedPreferences.getInstance();
+  @singleton
+  @preResolve
+  Future<SharedPreferences> get sharedPreferences =>
+      SharedPreferences.getInstance();
 
   @prod
   @dev

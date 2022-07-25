@@ -12,8 +12,8 @@ class GetFromCartUseCase implements IGetFromCartUseCase {
   GetFromCartUseCase(this._cartRepository);
 
   @override
-  Future<Either<ICartExceptions, Cart?>> call(String userId) async {
-    final cart = await _cartRepository.getCart(userId);
+  Future<Either<ICartExceptions, Cart?>> call(String userIdParam) async {
+    final cart = await _cartRepository.getCart(userIdParam);
     return cart.fold(
       (l) => Left(l),
       (r) => Right(r),

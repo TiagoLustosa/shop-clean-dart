@@ -14,8 +14,9 @@ class AddOrUpdateCartUseCase implements IAddOrUpdateCartUseCase {
   AddOrUpdateCartUseCase(this._cartRepository);
 
   @override
-  Future<Either<ICartExceptions, Cart>> call(Product product) async {
-    final getCart = await _cartRepository.getCart('userIdAqui');
+  Future<Either<ICartExceptions, Cart>> call(Product product,
+      {String? userId}) async {
+    final getCart = await _cartRepository.getCart(userId!);
     CartItemResultModel cartItem = CartItemResultModel(
       id: product.id,
       name: product.name,
@@ -37,7 +38,7 @@ class AddOrUpdateCartUseCase implements IAddOrUpdateCartUseCase {
       );
     });
 
-    final cart = await _cartRepository.addOrUpdateCart(cartItem, 'userIdAqui');
+    final cart = await _cartRepository.addOrUpdateCart(cartItem, userId);
     return cart.fold(
       (l) => Left(CartDataSourceException(message: l.toString())),
       (r) => Right(r),

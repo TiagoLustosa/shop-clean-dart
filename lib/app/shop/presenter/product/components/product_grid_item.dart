@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_clean_arch/app/injector.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 import 'package:shop_clean_arch/app/shop/utils/app_routes.dart';
@@ -7,6 +12,16 @@ import '../../../infra/models/product_result_model.dart';
 
 class ProductGridItem extends StatelessWidget {
   final ProductResultModel? product;
+
+  AuthResultModel getUserId() {
+    final prefs = injector.get<SharedPreferences>();
+    final authResult = prefs.getString('userLogged');
+    final json = jsonDecode(authResult!);
+    AuthResultModel auth = AuthResultModel(
+        userId: json['userId'], token: json['token'], email: json['email']);
+
+    return auth;
+  }
 
   const ProductGridItem({super.key, this.product});
   @override
@@ -20,7 +35,9 @@ class ProductGridItem extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.favorite),
               color: Colors.pink,
-              onPressed: () {},
+              onPressed: () {
+                getUserId();
+              },
             ),
             title: Text(
               product!.name!,
@@ -30,7 +47,7 @@ class ProductGridItem extends StatelessWidget {
               icon: const Icon(Icons.shopping_cart),
               color: Theme.of(context).colorScheme.surface,
               onPressed: () => BlocProvider.of<CartBloc>(context).add(
-                AddOrUpdateCart(product!, 'userIdAqui'),
+                AddOrUpdateCart(product!, getUserId().userId.toString()),
               ),
               // onPressed: () {
               //   cart.addItem(product);

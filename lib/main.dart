@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_clean_arch/app/shop/presenter/auth/pages/auth_or_home_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/pages/cart_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_detail_page.dart';
@@ -72,9 +73,8 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // home: ProductOverViewPage(),
         routes: {
-          AppRoutes.authOrHome: (context) => const ProductOverViewPage(),
+          AppRoutes.authOrHome: (context) => const AuthOrHomePage(),
           AppRoutes.productDetail: (context) => const ProductDetailPage(),
           AppRoutes.products: (context) => const ProductsPage(),
           AppRoutes.productForm: (context) => const ProductFormPage(),
