@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/cart.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/cart_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/cart_datasource.dart';
@@ -47,9 +46,14 @@ class FirebaseCartDatasource implements ICartDataSource {
   }
 
   @override
-  Future<bool> removeFromCart(Product product) {
-    // TODO: implement removeFromCart
-    throw UnimplementedError();
+  Future<bool> removeFromCart(String userId, String productId) async {
+    final result = await _dio.delete('$cartBaseURL/$userId/$productId.json');
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      throw CartDataSourceException(
+          message: 'Error while trying to remove from cart');
+    }
   }
 
   @override

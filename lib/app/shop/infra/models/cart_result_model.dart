@@ -14,6 +14,12 @@ class CartResultModel extends Cart {
     required this.totalItems,
   });
 
+  get totalPriceValue => cartItemList.fold<double>(
+        0.0,
+        (previousValue, element) =>
+            previousValue + (element.price! * element.quantity!),
+      );
+
   factory CartResultModel.fromJson(Map<String, dynamic> json) {
     return CartResultModel(
       userId: 'userIdAqui',
@@ -25,7 +31,6 @@ class CartResultModel extends Cart {
     );
   }
 
-  //create frommap
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,

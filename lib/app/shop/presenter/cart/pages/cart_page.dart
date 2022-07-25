@@ -15,61 +15,74 @@ class CartPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Carrinho'),
       ),
-      body: BlocBuilder<CartBloc, CartState>(
-        bloc: BlocProvider.of<CartBloc>(context)
-          ..add(GetFromCart('userIdAqui')),
-        builder: (context, state) => Column(
-          children: [
-            if (state is CartLoading)
-              Center(
-                child: CircularProgressIndicator(),
+      body: BlocListener<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is CartItemRemovedSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Item removido com sucesso!'),
+                backgroundColor: Theme.of(context).primaryColor,
               ),
-            Card(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 25,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Total',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Chip(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      label: Text(
-                        // 'R\$${cart.totalAmount.toStringAsFixed(2)}'
-                        "aaa",
+            );
+          }
+        },
+        child: BlocBuilder<CartBloc, CartState>(
+          bloc: BlocProvider.of<CartBloc>(context)
+            ..add(GetFromCart('userIdAqui')),
+          builder: (context, state) => Column(
+            children: [
+              if (state is CartLoading)
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+              Card(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 25,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Total',
                         style: TextStyle(
-                          color: Theme.of(context)
-                              .primaryTextTheme
-                              .headline6
-                              ?.color,
+                          fontSize: 20,
                         ),
                       ),
-                    ),
-                    Spacer(),
-                    // CartButton(cart: cart),
-                  ],
-                ),
-              ),
-            ),
-            if (state is CartSuccess)
-              Expanded(
-                child: ListView.builder(
-                  itemCount: state.cart.cartItemList!.length,
-                  itemBuilder: (context, index) => CartItemWidget(
-                    state.cart.cartItemList![index],
+                      SizedBox(width: 10),
+                      Chip(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        label: Text(
+                          (state is CartSuccess)
+                              ? 'R\$${state.cart.cartItemList?.fold<double>(0, (previousValue, element) => previousValue + (element.quantity! * element.price!)).toStringAsFixed(2)}'
+                              : 'R\$0,00',
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .headline6
+                                ?.color,
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      // CartButton(cart: cart),
+                    ],
                   ),
                 ),
               ),
-          ],
+              if (state is CartSuccess)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.cart.cartItemList!.length,
+                    itemBuilder: (context, index) => CartItemWidget(
+                      state.cart.cartItemList![index],
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

@@ -28,3 +28,11 @@ class CartSuccess extends CartState {
   @override
   List<Object> get props => [cart];
 }
+
+class CartItemRemovedSuccess extends CartState {
+  final bool isSuccess;
+  CartItemRemovedSuccess(this.isSuccess);
+
+  @override
+  List<Object> get props => [isSuccess];
+}

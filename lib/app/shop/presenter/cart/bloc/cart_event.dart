@@ -26,3 +26,13 @@ class GetFromCart extends CartEvent {
   @override
   List<Object> get props => [userId];
 }
+
+class RemoveFromCart extends CartEvent {
+  final String userId;
+  final String productId;
+
+  RemoveFromCart(this.userId, this.productId);
+
+  @override
+  List<Object> get props => [userId, productId];
+}

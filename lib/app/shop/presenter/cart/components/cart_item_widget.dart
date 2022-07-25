@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/cart_item.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
+import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem cartItem;
@@ -52,10 +55,8 @@ class CartItemWidget extends StatelessWidget {
         );
       },
       onDismissed: (_) {
-        // Provider.of<Cart>(
-        //   context,
-        //   listen: false,
-        // ).removeItem(cartItem.productId);
+        BlocProvider.of<CartBloc>(context)
+            .add(RemoveFromCart('userIdAqui', cartItem.id!));
       },
       child: Card(
         margin: const EdgeInsets.symmetric(
@@ -74,8 +75,8 @@ class CartItemWidget extends StatelessWidget {
               ),
             ),
             title: Text(cartItem.name!),
-            subtitle:
-                Text('Total: R\$ ${cartItem.price! * cartItem.quantity!}'),
+            subtitle: Text(
+                'Total: R\$ ${(cartItem.price! * cartItem.quantity!).toStringAsFixed(2)}'),
             trailing: Text('${cartItem.quantity}x'),
           ),
         ),

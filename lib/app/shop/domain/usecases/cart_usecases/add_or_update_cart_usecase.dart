@@ -22,6 +22,7 @@ class AddOrUpdateCartUseCase implements IAddOrUpdateCartUseCase {
       price: product.price,
       quantity: 0,
     );
+
     getCart.fold((l) => Left(l), (r) {
       Right(r);
       final cartItemExist = r?.cartItemList?.firstWhere(
@@ -35,6 +36,7 @@ class AddOrUpdateCartUseCase implements IAddOrUpdateCartUseCase {
         quantity: cartItemExist.quantity! + 1,
       );
     });
+
     final cart = await _cartRepository.addOrUpdateCart(cartItem, 'userIdAqui');
     return cart.fold(
       (l) => Left(CartDataSourceException(message: l.toString())),

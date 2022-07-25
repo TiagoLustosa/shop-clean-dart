@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_clean_arch/app/shop/presenter/product/bloc/product_bloc.dart';
-import '../../../domain/usecases/base_usecase/base_usecase.dart';
 import '../../../utils/app_routes.dart';
 import '../../components/app_drawer.dart';
 import '../../products_list/bloc/bloc/products_list_bloc.dart';
-import '../bloc/product_state.dart';
 import '../components/product_item.dart';
 
 class ProductsPage extends StatelessWidget {
@@ -34,7 +31,7 @@ class ProductsPage extends StatelessWidget {
       ),
       drawer: AppDrawer(),
       body: BlocBuilder<ProductsListBloc, ProductsListState>(
-        bloc: BlocProvider.of(context)..add(GetProductsList()),
+        // bloc: BlocProvider.of(context)..add(GetProductsList()),
         builder: (context, state) {
           if (state is ProductsListLoading) {
             return Center(

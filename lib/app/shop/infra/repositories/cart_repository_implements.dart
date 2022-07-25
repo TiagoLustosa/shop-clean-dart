@@ -48,9 +48,16 @@ class CartRepositoryImplements implements ICartRepository {
   }
 
   @override
-  Future<Either<ICartExceptions, Cart>> removeFromCart(CartItem cartItem) {
-    // TODO: implement removeFromCart
-    throw UnimplementedError();
+  Future<Either<ICartExceptions, bool>> removeFromCart(
+      String userId, String productId) async {
+    try {
+      final result = await _cartDataSource.removeFromCart(userId, productId);
+      return Right(result);
+    } on CartDataSourceException catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(CartDataSourceException(message: e.toString()));
+    }
   }
 
   @override
