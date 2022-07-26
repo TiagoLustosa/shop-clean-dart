@@ -4,15 +4,20 @@ import 'package:shop_clean_arch/app/shop/infra/models/cart_item_result_model.dar
 class CartResultModel extends Cart {
   final String userId;
   final List<CartItemResultModel> cartItemList;
-  final double? totalPrice;
-  final int? totalItems;
+  final double totalPrice;
+  final int totalItems;
 
   CartResultModel({
     required this.userId,
     required this.cartItemList,
     required this.totalPrice,
     required this.totalItems,
-  });
+  }) : super(
+          userId: userId,
+          cartItemList: cartItemList,
+          totalPrice: totalPrice,
+          totalItems: totalItems,
+        );
 
   get totalPriceValue => cartItemList.fold<double>(
         0.0,
@@ -22,7 +27,7 @@ class CartResultModel extends Cart {
 
   factory CartResultModel.fromJson(Map<String, dynamic> json) {
     return CartResultModel(
-      userId: 'userIdAqui',
+      userId: json['id'],
       cartItemList: (json['name'] as List)
           .map((e) => CartItemResultModel.fromJson(e))
           .toList(),
@@ -34,7 +39,7 @@ class CartResultModel extends Cart {
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
-      'cartItemList': cartItemList.map((i) => i.toJson()).toList(),
+      'products': cartItemList.map((i) => i.toJson()).toList(),
       'totalPrice': totalPrice,
       'totalItems': totalItems,
     };

@@ -26,17 +26,4 @@ class FirebaseAuthDataSource implements IAuthDataSource {
               'Error while trying to authenticate with email and password');
     }
   }
-
-  @override
-  Future<AuthResultModel> getUser(String idToken) async {
-    final response = await dio.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDBit58TtquUUVaJHW67oIj908j2WaTbbU',
-        data: {'idToken': idToken});
-    if (response.statusCode == 200) {
-      return AuthResultModel.fromMap(response.data);
-    } else {
-      throw AuthDataSourceException(
-          message: 'Erro while trying to get user info');
-    }
-  }
 }

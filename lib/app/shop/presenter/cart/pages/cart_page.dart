@@ -4,12 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/injector.dart';
+import 'package:shop_clean_arch/app/shop/domain/entities/cart.dart';
+import 'package:shop_clean_arch/app/shop/domain/entities/cart_item.dart';
+import 'package:shop_clean_arch/app/shop/domain/entities/order_item.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/get_from_cart_usecase.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/cart_item_result_model.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/cart_result_model.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/order_item_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_state.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/components/cart_item_widget.dart';
+import 'package:shop_clean_arch/app/shop/presenter/order/bloc/order_bloc.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -70,7 +77,7 @@ class CartPage extends StatelessWidget {
                         backgroundColor: Theme.of(context).primaryColor,
                         label: Text(
                           (state is CartSuccess)
-                              ? 'R\$${state.cart.cartItemList?.fold<double>(0, (previousValue, element) => previousValue + (element.quantity! * element.price!)).toStringAsFixed(2)}'
+                              ? 'R\$${state.cart.cartItemList.fold<double>(0, (previousValue, element) => previousValue + (element.quantity * element.price)).toStringAsFixed(2)}'
                               : 'R\$0,00',
                           style: TextStyle(
                             color: Theme.of(context)
@@ -81,7 +88,9 @@ class CartPage extends StatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      // CartButton(cart: cart),
+                      (state is CartSuccess)
+                          ? CartButton(cart: state.cart)
+                          : Container(),
                     ],
                   ),
                 ),
@@ -103,45 +112,65 @@ class CartPage extends StatelessWidget {
   }
 }
 
-// class CartButton extends StatefulWidget {
-//   const CartButton({
-//     Key? key,
-//     required this.cart,
-//   }) : super(key: key);
+class CartButton extends StatefulWidget {
+  const CartButton({
+    Key? key,
+    required this.cart,
+  }) : super(key: key);
 
-//   final Cart cart;
+  final Cart cart;
 
-//   @override
-//   _CartButtonState createState() => _CartButtonState();
-// }
+  @override
+  _CartButtonState createState() => _CartButtonState();
+}
 
-// class _CartButtonState extends State<CartButton> {
-//   bool _isLoading = false;
+class _CartButtonState extends State<CartButton> {
+  bool _isLoading = false;
+  AuthResultModel getUserId() {
+    final prefs = injector.get<SharedPreferences>();
+    final authResult = prefs.getString('userLogged');
+    final json = jsonDecode(authResult!);
+    AuthResultModel auth = AuthResultModel(
+        userId: json['userId'], token: json['token'], email: json['email']);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return _isLoading
-//         ? CircularProgressIndicator()
-//         : TextButton(
-//             child: Text('COMPRAR'),
-//             style: TextButton.styleFrom(
-//               textStyle: TextStyle(
-//                 color: Theme.of(context).primaryColor,
-//               ),
-//             ),
-//             onPressed: widget.cart.itemsCount == 0
-//                 ? null
-//                 : () async {
-//                     setState(() => _isLoading = true);
+    return auth;
+  }
 
-//                     await Provider.of<OrderList>(
-//                       context,
-//                       listen: false,
-//                     ).addOrder(widget.cart);
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading
+        ? CircularProgressIndicator()
+        : TextButton(
+            child: Text('COMPRAR'),
+            style: TextButton.styleFrom(
+              textStyle: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            onPressed: widget.cart.cartItemList!.isEmpty
+                ? null
+                : () async {
+                    setState(() => _isLoading = true);
 
-//                     widget.cart.clear();
-//                     setState(() => _isLoading = false);
-//                   },
-//           );
-//   }
-// }
+                    BlocProvider.of<OrderBloc>(
+                      context,
+                    ).add(
+                      CreateOrder(
+                        OrderItemResultModel(
+                            date: DateTime.now(),
+                            cartItemList: widget.cart.cartItemList,
+                            total: widget.cart.cartItemList.fold<double>(
+                                0,
+                                (previousValue, element) =>
+                                    previousValue +
+                                    (element.quantity * element.price))),
+                        getUserId().userId.toString(),
+                      ),
+                    );
+
+                    // widget.cart.clear();
+                    setState(() => _isLoading = false);
+                  },
+          );
+  }
+}

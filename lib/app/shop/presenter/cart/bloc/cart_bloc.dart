@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts/add_or_update_cart_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts/get_from_cart_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts/remove_from_cart_usecase_contract.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/cart_item_result_model.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/cart_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_state.dart';
 
@@ -27,7 +29,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         await addOrUpdateCartUseCase(event.product, userId: event.userId);
     emit(result.fold(
       (l) => CartError(l),
-      (r) => CartSuccess(r),
+      (r) => CartSuccess(r as CartResultModel),
     ));
   }
 

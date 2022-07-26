@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/cart.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/product.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/cart_exceptions.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/cart_result_model.dart';
 
 abstract class CartState extends Equatable {
   const CartState();

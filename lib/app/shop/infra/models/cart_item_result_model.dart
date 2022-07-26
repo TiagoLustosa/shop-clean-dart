@@ -1,17 +1,22 @@
 import 'package:shop_clean_arch/app/shop/domain/entities/cart_item.dart';
 
 class CartItemResultModel extends CartItem {
-  final String? id;
-  final String? name;
-  final int? quantity;
-  final double? price;
+  final String id;
+  final String name;
+  final int quantity;
+  final double price;
 
   CartItemResultModel({
-    this.id,
-    this.name,
-    this.quantity,
-    this.price,
-  });
+    required this.id,
+    required this.name,
+    required this.quantity,
+    required this.price,
+  }) : super(
+          id: id,
+          name: name,
+          quantity: quantity,
+          price: price,
+        );
 
   factory CartItemResultModel.fromJson(Map<String, dynamic> json) {
     return CartItemResultModel(
@@ -24,6 +29,7 @@ class CartItemResultModel extends CartItem {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'quantity': quantity,
       'price': price,

@@ -13,6 +13,7 @@ import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/get_from_cart_usecase.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/remove_from_cart_usecase.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/cart_item_result_model.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/cart_result_model.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
@@ -37,15 +38,28 @@ void main() {
   final removeFromCartUseCase = RemoveFromCartUseCase(cartRepositoryMock);
 
   setUp(() {
-    registerFallbackValue(CartItemResultModel());
+    registerFallbackValue(CartItemResultModel(
+      id: '1',
+      name: 'test',
+      price: 1,
+      quantity: 1,
+    ));
   });
   blocTest<CartBloc, CartState>('should emit loading and success state',
       build: () {
         when(() => cartRepositoryMock.getCart(any())).thenAnswer(
-          (_) async => Right(Cart(cartItemList: <CartItem>[], userId: '')),
+          (_) async => Right(CartResultModel(
+              cartItemList: <CartItemResultModel>[],
+              userId: '123',
+              totalItems: 2,
+              totalPrice: 123)),
         );
         when(() => cartRepositoryMock.addOrUpdateCart(any(), any())).thenAnswer(
-          (_) async => Right(Cart()),
+          (_) async => Right(Cart(
+              cartItemList: any(),
+              totalPrice: any(),
+              totalItems: any(),
+              userId: any())),
         );
         return CartBloc(
             addOrUpdateCartUseCase: addOrUpdateCartUseCase,
@@ -59,7 +73,7 @@ void main() {
             isA<CartSuccess>(),
           ]);
 
-  blocTest<CartBloc, CartState>('should emit loading and success state',
+  blocTest<CartBloc, CartState>('should emit loading and error state',
       build: () {
         when(() => cartRepositoryMock.addOrUpdateCart(any(), any())).thenAnswer(
           (_) async => Left(

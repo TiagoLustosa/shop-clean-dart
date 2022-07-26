@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/auth/pages/auth_or_home_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/pages/cart_page.dart';
+import 'package:shop_clean_arch/app/shop/presenter/order/bloc/order_bloc.dart';
+import 'package:shop_clean_arch/app/shop/presenter/order/pages/orders_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_detail_page.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/components/product_grid_item.dart';
@@ -48,6 +50,10 @@ class MyApp extends StatelessWidget {
           create: (_) => injector<CartBloc>(),
           child: const CartPage(),
         ),
+        BlocProvider<OrderBloc>(
+          create: (_) => injector<OrderBloc>(),
+          child: OrdersPage(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -79,6 +85,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.products: (context) => const ProductsPage(),
           AppRoutes.productForm: (context) => const ProductFormPage(),
           AppRoutes.cart: (context) => const CartPage(),
+          AppRoutes.orders: (context) => OrdersPage(),
         },
       ),
     );

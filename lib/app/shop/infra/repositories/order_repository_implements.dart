@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/order_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/order_repository.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/order_datasource.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/order_item_result_model.dart';
 
 @Injectable(as: IOrderRepository)
 class OrderRepository implements IOrderRepository {
@@ -23,8 +24,15 @@ class OrderRepository implements IOrderRepository {
   }
 
   @override
-  Future<Either<Exception, OrderItem>> createOrder(OrderItem orderItem) {
-    // TODO: implement createOrder
-    throw UnimplementedError();
+  Future<Either<Exception, OrderItemResultModel>> createOrder(
+      OrderItem orderItem, String userId) async {
+    try {
+      final result = await _orderDataSource.createOrder(orderItem, userId);
+      return Right(result as OrderItemResultModel);
+    } on IOrderExceptions catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(OrderDataSourceException(message: e.toString()));
+    }
   }
 }

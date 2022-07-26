@@ -8,10 +8,10 @@ class OrderItemResultModel extends OrderItem {
   final DateTime? date;
 
   OrderItemResultModel({
-    required this.id,
-    required this.total,
-    required this.cartItemList,
-    required this.date,
+    this.id,
+    this.total,
+    this.cartItemList,
+    this.date,
   });
 
 // create from json
@@ -19,7 +19,7 @@ class OrderItemResultModel extends OrderItem {
     return OrderItemResultModel(
       id: json['id'],
       total: json['total'],
-      cartItemList: (json['cartItemList'] as List)
+      cartItemList: (json['products'] as List)
           .map((e) => CartItemResultModel.fromJson(e))
           .toList(),
       date: DateTime.parse(json['date']),
@@ -29,9 +29,9 @@ class OrderItemResultModel extends OrderItem {
 //create to json
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      //'id': id,
       'total': total,
-      'cartItemList': cartItemList!.map((i) => i.toJson()).toList(),
+      'products': cartItemList!.map((i) => i.toJson()).toList(),
       'date': date!.toIso8601String(),
     };
   }

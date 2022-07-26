@@ -1,32 +1,20 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/order_item.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/order_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/order_datasource.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/order_item_result_model.dart';
+import 'package:shop_clean_arch/app/shop/infra/rest_client/rest_client.dart';
 import 'package:shop_clean_arch/app/shop/utils/constants.dart';
 
 @Injectable(as: IOrderDataSource)
 class FirebaseOrderDataSource implements IOrderDataSource {
-  final Dio _dio;
-  final SharedPreferences _sharedPreferences;
-  String _token() {
-    final authResult = _sharedPreferences.getString('userLogged');
-    final json = jsonDecode(authResult!);
-    if (json['token'] != null) {
-      return json['token'];
-    }
-    throw OrderDataSourceException(message: 'Auth Token not found');
-  }
+  final IRestClient _restClient;
 
-  FirebaseOrderDataSource(this._dio, this._sharedPreferences);
+  FirebaseOrderDataSource(this._restClient);
   @override
   Future<List<OrderItem>> getOrders(String userId) async {
-    final result = await _dio
-        .get('$orderBaseURL/$userId.json?auth=${_token().toString()}');
+    final result =
+        await _restClient.instance().get('$orderBaseURL/$userId.json');
     if (result.statusCode == 200) {
       return (result.data as Map<String, dynamic>)
           .map((key, value) {
@@ -42,8 +30,16 @@ class FirebaseOrderDataSource implements IOrderDataSource {
   }
 
   @override
-  Future<OrderItem> createOrder(OrderItem orderItem) {
-    // TODO: implement createOrder
-    throw UnimplementedError();
+  Future<OrderItem> createOrder(OrderItem orderItem, String userId) async {
+    orderItem as OrderItemResultModel;
+    final result = await _restClient
+        .instance()
+        .post('$orderBaseURL/$userId.json', data: orderItem.toJson());
+    if (result.statusCode == 200) {
+      return orderItem;
+    } else {
+      throw OrderDataSourceException(
+          message: 'Error while trying to create order');
+    }
   }
 }

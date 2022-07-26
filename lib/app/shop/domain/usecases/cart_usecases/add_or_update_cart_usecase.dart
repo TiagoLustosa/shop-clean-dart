@@ -18,15 +18,15 @@ class AddOrUpdateCartUseCase implements IAddOrUpdateCartUseCase {
       {String? userId}) async {
     final getCart = await _cartRepository.getCart(userId!);
     CartItemResultModel cartItem = CartItemResultModel(
-      id: product.id,
-      name: product.name,
-      price: product.price,
+      id: product.id!,
+      name: product.name!,
+      price: product.price!,
       quantity: 0,
     );
 
     getCart.fold((l) => Left(l), (r) {
       Right(r);
-      final cartItemExist = r?.cartItemList?.firstWhere(
+      final cartItemExist = r?.cartItemList.firstWhere(
           (element) => element.id == product.id,
           orElse: () => cartItem);
 
@@ -34,7 +34,7 @@ class AddOrUpdateCartUseCase implements IAddOrUpdateCartUseCase {
         id: cartItemExist!.id,
         name: cartItemExist.name,
         price: cartItemExist.price,
-        quantity: cartItemExist.quantity! + 1,
+        quantity: cartItemExist.quantity + 1,
       );
     });
 
