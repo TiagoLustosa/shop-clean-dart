@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_clean_arch/app/injector.dart';
 import 'package:shop_clean_arch/app/shop/domain/entities/cart_item.dart';
+import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 
@@ -11,6 +16,16 @@ class CartItemWidget extends StatelessWidget {
     this.cartItem, {
     Key? key,
   }) : super(key: key);
+
+  AuthResultModel getUserId() {
+    final prefs = injector.get<SharedPreferences>();
+    final authResult = prefs.getString('userLogged');
+    final json = jsonDecode(authResult!);
+    AuthResultModel auth = AuthResultModel(
+        userId: json['userId'], token: json['token'], email: json['email']);
+
+    return auth;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +70,10 @@ class CartItemWidget extends StatelessWidget {
         );
       },
       onDismissed: (_) {
-        BlocProvider.of<CartBloc>(context)
-            .add(RemoveFromCart('userIdAqui', cartItem.id!));
+        BlocProvider.of<CartBloc>(context).add(RemoveFromCart(
+          cartItem.id,
+          getUserId().userId.toString(),
+        ));
       },
       child: Card(
         margin: const EdgeInsets.symmetric(

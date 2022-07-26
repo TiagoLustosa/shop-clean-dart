@@ -44,7 +44,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   FutureOr<void> removeFromCart(RemoveFromCart event, Emitter emit) async {
     emit(CartLoading());
-    final result = await removeFromCartUseCase(event.productId);
+    final result =
+        await removeFromCartUseCase(event.productId, userId: event.userId);
     emit(result.fold(
       (l) => CartError(l),
       (r) => CartItemRemovedSuccess(r),

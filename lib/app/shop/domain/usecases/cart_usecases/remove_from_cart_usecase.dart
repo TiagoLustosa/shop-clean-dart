@@ -12,7 +12,7 @@ class RemoveFromCartUseCase implements IRemoveFromCartUseCase {
   @override
   Future<Either<ICartExceptions, bool>> call(String productId,
       {String? userId}) async {
-    final result = await _cartRepository.removeFromCart(userId!, productId);
+    final result = await _cartRepository.removeFromCart(productId, userId!);
     return result.fold(
       (l) => Left(l),
       (r) => Right(r),
