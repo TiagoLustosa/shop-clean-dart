@@ -16,7 +16,7 @@ main() {
 
   test('should return an auth result model', () async {
     when(() => userDataDataSourceMock.getUserLocalData())
-        .thenAnswer((_) async => AuthResultModel());
+        .thenAnswer((_) => AuthResultModel());
 
     final result = await userDataRepository.getUserLocalData();
     final actual = result.fold(id, id);

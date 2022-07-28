@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/injector.dart';
+import 'package:shop_clean_arch/app/shop/infra/datasources/user_data_local_datasource.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
@@ -18,7 +19,7 @@ class ProductGridItem extends StatelessWidget {
     final authResult = prefs.getString('userLogged');
     final json = jsonDecode(authResult!);
     AuthResultModel auth = AuthResultModel(
-        userId: json['userId'], token: json['token'], email: json['email']);
+        localId: json['userId'], idToken: json['token'], email: json['email']);
 
     return auth;
   }
@@ -47,7 +48,12 @@ class ProductGridItem extends StatelessWidget {
               icon: const Icon(Icons.shopping_cart),
               color: Theme.of(context).colorScheme.surface,
               onPressed: () => BlocProvider.of<CartBloc>(context).add(
-                AddOrUpdateCart(product!, getUserId().userId.toString()),
+                AddOrUpdateCart(
+                    product!,
+                    injector
+                        .get<IUserDataLocalDataSource>()
+                        .getUserLocalData()
+                        .localId!),
               ),
               // onPressed: () {
               //   cart.addItem(product);

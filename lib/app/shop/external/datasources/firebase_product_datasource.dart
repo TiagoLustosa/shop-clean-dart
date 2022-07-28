@@ -5,19 +5,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/product_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/product_datasource.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
-import 'package:shop_clean_arch/app/shop/infra/rest_client/rest_client.dart';
 import 'package:shop_clean_arch/app/shop/utils/constants.dart';
 import '../../domain/entities/product.dart';
 
 @Injectable(as: IProductDataSource)
 class FirebaseProductDataSource implements IProductDataSource {
-  final IRestClient _restClient;
+  final Dio _dio;
 
-  FirebaseProductDataSource(this._restClient);
+  FirebaseProductDataSource(this._dio);
   @override
   Future<ProductResultModel> getProduct(String id) async {
-    final response =
-        await _restClient.instance().get('$productBaseURL/$id.json');
+    final response = await _dio.get('$productBaseURL/$id.json');
     if (response.statusCode == 200) {
       return ProductResultModel.fromJson(response.data);
     } else {
@@ -28,7 +26,7 @@ class FirebaseProductDataSource implements IProductDataSource {
 
   @override
   Future<List<ProductResultModel>> getAllProducts() async {
-    final response = await _restClient.instance().get('$productBaseURL.json');
+    final response = await _dio.get('$productBaseURL.json');
     if (response.statusCode == 200) {
       return (response.data as Map<String, dynamic>)
           .map((key, value) {
@@ -45,9 +43,8 @@ class FirebaseProductDataSource implements IProductDataSource {
 
   @override
   Future<Product> addProduct(ProductResultModel product) async {
-    final response = await _restClient
-        .instance()
-        .post('$productBaseURL.json', data: jsonEncode(product.toJson()));
+    final response = await _dio.post('$productBaseURL.json',
+        data: jsonEncode(product.toJson()));
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -58,8 +55,7 @@ class FirebaseProductDataSource implements IProductDataSource {
 
   @override
   Future<ProductResultModel> updateProduct(ProductResultModel product) async {
-    final response = await _restClient.instance().put(
-        '$productBaseURL/${product.id}.json',
+    final response = await _dio.put('$productBaseURL/${product.id}.json',
         data: jsonEncode(product.toJson()));
     if (response.statusCode == 200) {
       return response.data;
@@ -77,9 +73,9 @@ class FirebaseProductDataSource implements IProductDataSource {
 
   @override
   Future<bool> deleteProduct(String id) async {
-    final response = await _restClient.instance().delete(
-          '$productBaseURL/$id.json',
-        );
+    final response = await _dio.delete(
+      '$productBaseURL/$id.json',
+    );
     if (response.statusCode == 200) {
       return true;
     } else {

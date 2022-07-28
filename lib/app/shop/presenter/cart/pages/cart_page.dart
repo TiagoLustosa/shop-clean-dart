@@ -25,7 +25,7 @@ class CartPage extends StatelessWidget {
     final authResult = prefs.getString('userLogged');
     final json = jsonDecode(authResult!);
     AuthResultModel auth = AuthResultModel(
-        userId: json['userId'], token: json['token'], email: json['email']);
+        localId: json['userId'], idToken: json['token'], email: json['email']);
 
     return auth;
   }
@@ -131,7 +131,7 @@ class _CartButtonState extends State<CartButton> {
     final authResult = prefs.getString('userLogged');
     final json = jsonDecode(authResult!);
     AuthResultModel auth = AuthResultModel(
-        userId: json['userId'], token: json['token'], email: json['email']);
+        localId: json['userId'], idToken: json['token'], email: json['email']);
 
     return auth;
   }

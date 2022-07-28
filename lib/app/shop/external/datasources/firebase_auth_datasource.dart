@@ -8,18 +8,18 @@ import '../../utils/constants.dart';
 
 @Injectable(as: IAuthDataSource)
 class FirebaseAuthDataSource implements IAuthDataSource {
-  final Dio dio;
+  final Dio _dio;
 
-  FirebaseAuthDataSource(this.dio);
+  FirebaseAuthDataSource(this._dio);
   @override
   Future<AuthResultModel> authWithEmail(AuthCredentials credentials) async {
-    final response = await dio.post(firebaseURL, data: {
+    final response = await _dio.post(firebaseURL, data: {
       'email': credentials.email,
       'password': credentials.password,
       'returnSecureToken': true
     });
     if (response.statusCode == 200) {
-      return AuthResultModel.fromMap(response.data);
+      return AuthResultModel.fromJson(response.data);
     } else {
       throw AuthDataSourceException(
           message:

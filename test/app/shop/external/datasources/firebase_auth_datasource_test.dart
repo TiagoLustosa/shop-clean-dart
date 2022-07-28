@@ -69,6 +69,7 @@ main() {
     );
     final result = await dioMock.post(firebaseURL, data: userCredentials);
     expect(result.statusCode, 201);
-    expect(AuthResultModel.fromJson(result.data), isA<AuthResultModel>());
+    expect(AuthResultModel.fromJson(jsonDecode(result.data)),
+        isA<AuthResultModel>());
   });
 }

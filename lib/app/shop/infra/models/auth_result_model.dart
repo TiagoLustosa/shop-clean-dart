@@ -5,42 +5,35 @@ import 'dart:core';
 import '../../domain/entities/auth.dart';
 
 class AuthResultModel extends Auth {
-  final String? token;
-  final String? userId;
+  final String? idToken;
+  final String? localId;
   final String? email;
-  // final DateTime? expiryDate;
-  // final Timer? logoutTimer;
+  final DateTime? expiryDate;
+  final Timer? logoutTimer;
 
   AuthResultModel({
-    this.token,
-    this.userId,
+    this.idToken,
+    this.localId,
     this.email,
-    //  this.expiryDate,
-    //  this.logoutTimer,
+    this.expiryDate,
+    this.logoutTimer,
   });
-
-  Map<String, dynamic> toMap() {
+  factory AuthResultModel.fromJson(Map<String, dynamic> json) {
+    return AuthResultModel(
+      idToken: json['idToken'],
+      localId: json['localId'],
+      email: json['email'],
+      expiryDate: json['expiryDate'],
+      logoutTimer: json['logoutTimer'],
+    );
+  }
+  Map<String, dynamic> toJson() {
     return {
-      'token': token,
-      'userId': userId,
+      'idToken': idToken,
+      'localId': localId,
       'email': email,
       'expiryDate': expiryDate,
       'logoutTimer': logoutTimer,
     };
   }
-
-  static AuthResultModel fromMap(Map<String, dynamic> map) {
-    return AuthResultModel(
-      token: map['idToken'],
-      userId: map['localId'],
-      email: map['email'],
-      //   expiryDate:
-      //      DateTime.now().add(Duration(seconds: int.parse(map['expiresIn']))),
-      //   logoutTimer: map['logoutTimer'],
-    );
-  }
-
-  String toJson() => jsonEncode(toMap());
-
-  static AuthResultModel fromJson(String source) => fromMap(jsonDecode(source));
 }
