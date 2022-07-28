@@ -4,6 +4,6 @@ import 'package:shop_clean_arch/app/shop/domain/exceptions/user_data_exceptions.
 
 abstract class IUserDataRepository {
   Future<Either<IUserDataExceptions, Auth>> getUserLocalData();
-  Future<Either<IUserDataExceptions, bool>> setUserLocalData(Auth auth);
+  Future<Either<IUserDataExceptions, bool>> setUserLocalData(Auth userData);
   Future<Either<IUserDataExceptions, bool>> deleteUserLocalData();
 }

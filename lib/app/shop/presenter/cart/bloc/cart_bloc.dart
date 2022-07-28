@@ -29,7 +29,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         await addOrUpdateCartUseCase(event.product, userId: event.userId);
     emit(result.fold(
       (l) => CartError(l),
-      (r) => CartSuccess(r as CartResultModel),
+      (r) => CartSuccess(r),
     ));
   }
 
