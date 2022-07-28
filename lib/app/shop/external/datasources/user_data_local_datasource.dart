@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shop_clean_arch/app/shop/domain/entities/auth.dart';
-import 'package:dartz/dartz.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/user_data_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/user_data_local_datasource.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';

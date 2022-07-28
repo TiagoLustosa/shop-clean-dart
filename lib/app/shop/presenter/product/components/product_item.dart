@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/product_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/product/bloc/product_event.dart';
-
 import '../../../utils/app_routes.dart';
-import '../../products_list/bloc/bloc/products_list_bloc.dart';
 import '../bloc/product_bloc.dart';
 
 class ProductItem extends StatelessWidget {
@@ -22,12 +20,12 @@ class ProductItem extends StatelessWidget {
         backgroundImage: NetworkImage(product.imageUrl!),
       ),
       title: Text(product.name!),
-      trailing: Container(
+      trailing: SizedBox(
         width: 100,
         child: Row(
           children: [
             IconButton(
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
               color: Theme.of(context).primaryColor,
               onPressed: () {
                 Navigator.of(context).pushNamed(
@@ -37,21 +35,21 @@ class ProductItem extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               color: Theme.of(context).errorColor,
               onPressed: () {
                 showDialog<bool>(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: Text('Excluir Produto'),
-                    content: Text('Tem certeza?'),
+                    title: const Text('Excluir Produto'),
+                    content: const Text('Tem certeza?'),
                     actions: [
                       TextButton(
-                        child: Text('Não'),
+                        child: const Text('Não'),
                         onPressed: () => Navigator.of(ctx).pop(false),
                       ),
                       TextButton(
-                        child: Text('Sim'),
+                        child: const Text('Sim'),
                         onPressed: () => Navigator.of(ctx).pop(true),
                       ),
                     ],

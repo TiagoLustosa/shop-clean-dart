@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/injector.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/user_data_local_datasource.dart';
-import 'package:shop_clean_arch/app/shop/infra/models/auth_result_model.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_bloc.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 import 'package:shop_clean_arch/app/shop/utils/app_routes.dart';
@@ -13,16 +9,6 @@ import '../../../infra/models/product_result_model.dart';
 
 class ProductGridItem extends StatelessWidget {
   final ProductResultModel? product;
-
-  AuthResultModel getUserId() {
-    final prefs = injector.get<SharedPreferences>();
-    final authResult = prefs.getString('userLogged');
-    final json = jsonDecode(authResult!);
-    AuthResultModel auth = AuthResultModel(
-        localId: json['userId'], idToken: json['token'], email: json['email']);
-
-    return auth;
-  }
 
   const ProductGridItem({super.key, this.product});
   @override
@@ -37,7 +23,7 @@ class ProductGridItem extends StatelessWidget {
               icon: const Icon(Icons.favorite),
               color: Colors.pink,
               onPressed: () {
-                getUserId();
+                injector<IUserDataLocalDataSource>().getUserLocalData().localId;
               },
             ),
             title: Text(

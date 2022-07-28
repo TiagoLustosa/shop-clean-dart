@@ -12,7 +12,7 @@ class AddOrUpdateCart extends CartEvent {
   final ProductResultModel product;
   final String userId;
 
-  AddOrUpdateCart(this.product, this.userId);
+  const AddOrUpdateCart(this.product, this.userId);
 
   @override
   List<Object> get props => [product];
@@ -21,7 +21,7 @@ class AddOrUpdateCart extends CartEvent {
 class GetFromCart extends CartEvent {
   final String userId;
 
-  GetFromCart(this.userId);
+  const GetFromCart(this.userId);
 
   @override
   List<Object> get props => [userId];
@@ -31,7 +31,7 @@ class RemoveFromCart extends CartEvent {
   final String userId;
   final String productId;
 
-  RemoveFromCart(this.userId, this.productId);
+  const RemoveFromCart(this.userId, this.productId);
 
   @override
   List<Object> get props => [userId, productId];

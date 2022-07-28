@@ -10,7 +10,7 @@ abstract class OrderEvent extends Equatable {
 class GetOrders extends OrderEvent {
   final String userId;
 
-  GetOrders(this.userId);
+  const GetOrders(this.userId);
 
   @override
   List<Object> get props => [userId];
@@ -20,7 +20,7 @@ class CreateOrder extends OrderEvent {
   final OrderItemResultModel orderItem;
   final String userId;
 
-  CreateOrder(this.orderItem, this.userId);
+  const CreateOrder(this.orderItem, this.userId);
 
   @override
   List<Object> get props => [orderItem];

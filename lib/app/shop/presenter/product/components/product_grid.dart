@@ -9,7 +9,6 @@ class ProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductsListBloc, ProductsListState>(
-      // bloc: BlocProvider.of<ProductsListBloc>(context)..add(GetProductsList()),
       builder: (context, state) {
         if (state is ProductsListLoading) {
           return const Center(

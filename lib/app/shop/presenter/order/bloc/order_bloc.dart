@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -7,7 +6,6 @@ import 'package:shop_clean_arch/app/shop/domain/entities/order_item.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/order_usecase/contracts/create_order_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/order_usecase/contracts/get_order_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/order_item_result_model.dart';
-
 part 'order_event.dart';
 part 'order_state.dart';
 

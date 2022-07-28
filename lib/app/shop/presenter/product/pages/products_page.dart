@@ -17,10 +17,10 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Produtos'),
+        title: const Text('Lista de Produtos'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.of(context).pushNamed(
                 AppRoutes.productForm,
@@ -29,17 +29,16 @@ class ProductsPage extends StatelessWidget {
           ),
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: BlocBuilder<ProductsListBloc, ProductsListState>(
-        // bloc: BlocProvider.of(context)..add(GetProductsList()),
         builder: (context, state) {
           if (state is ProductsListLoading) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
           if (state is ProductsListError) {
-            return Center(
+            return const Center(
               child: Text('Erro ao carregar os produtos'),
             );
           }
@@ -53,14 +52,14 @@ class ProductsPage extends StatelessWidget {
                   itemBuilder: (ctx, i) => Column(
                     children: [
                       ProductItem(state.products[i]),
-                      Divider(),
+                      const Divider(),
                     ],
                   ),
                 ),
               ),
             );
           }
-          return Center(
+          return const Center(
             child: Text('Nenhum produto cadastrado'),
           );
         },

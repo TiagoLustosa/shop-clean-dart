@@ -14,7 +14,7 @@ class OrderLoading extends OrderState {}
 class OrderError extends OrderState {
   final Exception message;
 
-  OrderError(this.message);
+  const OrderError(this.message);
 
   @override
   List<Object> get props => [message];
@@ -23,7 +23,7 @@ class OrderError extends OrderState {
 class OrderSuccess extends OrderState {
   final List<OrderItem> orderList;
 
-  OrderSuccess(this.orderList);
+  const OrderSuccess(this.orderList);
 
   @override
   List<Object> get props => [orderList];
@@ -31,5 +31,5 @@ class OrderSuccess extends OrderState {
 
 class OrderCreatedSuccess extends OrderState {
   final OrderItem orderItem;
-  OrderCreatedSuccess(this.orderItem);
+  const OrderCreatedSuccess(this.orderItem);
 }
