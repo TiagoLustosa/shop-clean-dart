@@ -5,5 +5,5 @@ abstract class ICartDataSource {
   Future<Cart?> getCart(String userId);
   Future<Cart> addToCart(CartItemResultModel cartItem, String userId);
   Future<bool> removeFromCart(String userId, String productId);
-  Future<bool> clearCart();
+  Future<bool> clearCart(String userId);
 }

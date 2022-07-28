@@ -9,5 +9,5 @@ abstract class ICartRepository {
       CartItemResultModel cartItem, String userId);
   Future<Either<ICartExceptions, bool>> removeFromCart(
       String userId, String productId);
-  Future<Either<ICartExceptions, bool>> clearCart();
+  Future<Either<ICartExceptions, bool>> clearCart(String userId);
 }

@@ -64,8 +64,13 @@ class FirebaseCartDatasource implements ICartDataSource {
   }
 
   @override
-  Future<bool> clearCart() {
-    // TODO: implement clearCart
-    throw UnimplementedError();
+  Future<bool> clearCart(String userId) async {
+    final result = await _dio.delete('$cartBaseURL/$userId.json');
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      throw CartDataSourceException(
+          message: 'Error while trying to clear cart');
+    }
   }
 }

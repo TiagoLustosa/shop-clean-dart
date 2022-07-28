@@ -8,6 +8,7 @@ import 'package:shop_clean_arch/app/shop/domain/entities/cart_item.dart';
 import 'package:shop_clean_arch/app/shop/domain/exceptions/cart_exceptions.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/cart_repository.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/add_or_update_cart_usecase.dart';
+import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/clear_cart_usecase.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts/add_or_update_cart_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/contracts/get_from_cart_usecase_contract.dart';
 import 'package:shop_clean_arch/app/shop/domain/usecases/cart_usecases/get_from_cart_usecase.dart';
@@ -20,7 +21,9 @@ import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_event.dart';
 import 'package:shop_clean_arch/app/shop/presenter/cart/bloc/cart_state.dart';
 
 class CartBlocMock extends MockBloc<CartEvent, CartState> implements CartBloc {
+  @override
   final IAddOrUpdateCartUseCase addOrUpdateCartUseCase;
+  @override
   final IGetFromCartUseCase getFromCartUseCase;
 
   CartBlocMock(this.addOrUpdateCartUseCase, this.getFromCartUseCase);
@@ -36,6 +39,7 @@ void main() {
   final addOrUpdateCartUseCase = AddOrUpdateCartUseCase(cartRepositoryMock);
   final getFromCartUseCase = GetFromCartUseCase(cartRepositoryMock);
   final removeFromCartUseCase = RemoveFromCartUseCase(cartRepositoryMock);
+  final clearCartUseCase = ClearCartUseCase(cartRepositoryMock);
 
   setUp(() {
     registerFallbackValue(CartItemResultModel(
@@ -62,9 +66,11 @@ void main() {
               totalPrice: 123)),
         );
         return CartBloc(
-            addOrUpdateCartUseCase: addOrUpdateCartUseCase,
-            getFromCartUseCase: getFromCartUseCase,
-            removeFromCartUseCase: removeFromCartUseCase);
+          addOrUpdateCartUseCase: addOrUpdateCartUseCase,
+          getFromCartUseCase: getFromCartUseCase,
+          removeFromCartUseCase: removeFromCartUseCase,
+          clearCartUseCase: clearCartUseCase,
+        );
       },
       act: (cartBloc) => cartBloc.add(AddOrUpdateCart(
           ProductResultModel(
@@ -93,9 +99,11 @@ void main() {
               CartDataSourceException(message: 'Erro while adding to cart')),
         );
         return CartBloc(
-            addOrUpdateCartUseCase: addOrUpdateCartUseCase,
-            getFromCartUseCase: getFromCartUseCase,
-            removeFromCartUseCase: removeFromCartUseCase);
+          addOrUpdateCartUseCase: addOrUpdateCartUseCase,
+          getFromCartUseCase: getFromCartUseCase,
+          removeFromCartUseCase: removeFromCartUseCase,
+          clearCartUseCase: clearCartUseCase,
+        );
       },
       act: (cartBloc) => cartBloc.add(AddOrUpdateCart(
           ProductResultModel(

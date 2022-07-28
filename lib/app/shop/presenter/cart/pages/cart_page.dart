@@ -125,10 +125,12 @@ class _CartButtonState extends State<CartButton> {
                 ? null
                 : () async {
                     setState(() => _isLoading = true);
-
-                    BlocProvider.of<OrderBloc>(
-                      context,
-                    ).add(
+                    // injector<CartBloc>().add(ClearCart(
+                    //   injector<IUserDataLocalDataSource>()
+                    //       .getUserLocalData()
+                    //       .localId!,
+                    // ));
+                    injector<OrderBloc>().add(
                       CreateOrder(
                         OrderItemResultModel(
                             date: DateTime.now(),

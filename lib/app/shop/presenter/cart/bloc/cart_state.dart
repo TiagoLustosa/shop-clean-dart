@@ -34,3 +34,11 @@ class CartItemRemovedSuccess extends CartState {
   @override
   List<Object> get props => [isSuccess];
 }
+
+class CartClearedSuccess extends CartState {
+  final bool isSuccess;
+  const CartClearedSuccess(this.isSuccess);
+
+  @override
+  List<Object> get props => [isSuccess];
+}

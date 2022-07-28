@@ -6,7 +6,6 @@ import 'package:dartz/dartz.dart';
 import 'package:shop_clean_arch/app/shop/domain/repositories/cart_repository.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/cart_datasource.dart';
 import 'package:shop_clean_arch/app/shop/infra/models/cart_item_result_model.dart';
-import 'package:shop_clean_arch/app/shop/infra/models/cart_result_model.dart';
 
 @Injectable(as: ICartRepository)
 class CartRepositoryImplements implements ICartRepository {
@@ -61,8 +60,14 @@ class CartRepositoryImplements implements ICartRepository {
   }
 
   @override
-  Future<Either<ICartExceptions, bool>> clearCart() {
-    // TODO: implement clearCart
-    throw UnimplementedError();
+  Future<Either<ICartExceptions, bool>> clearCart(String userId) async {
+    try {
+      final result = await _cartDataSource.clearCart(userId);
+      return Right(result);
+    } on CartDataSourceException catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(CartDataSourceException(message: e.toString()));
+    }
   }
 }

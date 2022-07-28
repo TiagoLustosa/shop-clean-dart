@@ -36,3 +36,12 @@ class RemoveFromCart extends CartEvent {
   @override
   List<Object> get props => [userId, productId];
 }
+
+class ClearCart extends CartEvent {
+  final String userId;
+
+  const ClearCart(this.userId);
+
+  @override
+  List<Object> get props => [userId];
+}

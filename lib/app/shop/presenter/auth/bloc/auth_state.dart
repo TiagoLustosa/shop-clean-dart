@@ -1,5 +1,3 @@
-import 'package:shop_clean_arch/app/shop/domain/exceptions/auth_exceptions.dart';
-
 import '../../../domain/entities/auth.dart';
 
 abstract class AuthState {}
