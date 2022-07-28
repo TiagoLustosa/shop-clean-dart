@@ -62,7 +62,14 @@ void main() {
     when(() => cartRepositoryMock.addOrUpdateCart(any(), any())).thenAnswer(
       (_) async => Left(CartDataSourceException(message: 'Error')),
     );
-    var result = await sut(Product(), userId: 'userId');
+    var result = await sut(
+        Product(
+            id: '123',
+            description: 'asdasdasd',
+            imageUrl: 'asdasdasda',
+            name: 'asdasda',
+            price: 10),
+        userId: 'userId');
     final actual = result.fold(id, id);
     expect(result.isLeft(), true);
     expect(actual, isA<CartDataSourceException>());

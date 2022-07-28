@@ -14,7 +14,7 @@ main() {
     when(() => cartRepositoryMock.removeFromCart(any(), any())).thenAnswer(
       (_) async => Right(true),
     );
-    final result = await sut('productId');
+    final result = await sut('productId', userId: 'userId');
     final actual = result.fold(id, id);
     expect(actual, true);
     verify(() => cartRepositoryMock.removeFromCart(any(), any())).called(1);
@@ -25,7 +25,7 @@ main() {
       (_) async => Left(
           CartDataSourceException(message: 'Error while removing cartItem')),
     );
-    var result = await sut('productId');
+    var result = await sut('productId', userId: 'userId');
     final actual = result.fold(id, id);
     expect(result.isLeft(), true);
     expect(actual, isA<CartDataSourceException>());

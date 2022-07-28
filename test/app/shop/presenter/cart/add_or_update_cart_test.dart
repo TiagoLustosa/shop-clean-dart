@@ -48,7 +48,7 @@ void main() {
   blocTest<CartBloc, CartState>('should emit loading and success state',
       build: () {
         when(() => cartRepositoryMock.getCart(any())).thenAnswer(
-          (_) async => Right(CartResultModel(
+          (_) async => Right(Cart(
               cartItemList: <CartItemResultModel>[],
               userId: '123',
               totalItems: 2,
@@ -56,18 +56,24 @@ void main() {
         );
         when(() => cartRepositoryMock.addOrUpdateCart(any(), any())).thenAnswer(
           (_) async => Right(Cart(
-              cartItemList: any(),
-              totalPrice: any(),
-              totalItems: any(),
-              userId: any())),
+              cartItemList: <CartItemResultModel>[],
+              userId: '123',
+              totalItems: 2,
+              totalPrice: 123)),
         );
         return CartBloc(
             addOrUpdateCartUseCase: addOrUpdateCartUseCase,
             getFromCartUseCase: getFromCartUseCase,
             removeFromCartUseCase: removeFromCartUseCase);
       },
-      act: (cartBloc) =>
-          cartBloc.add(AddOrUpdateCart(ProductResultModel(), 'userId')),
+      act: (cartBloc) => cartBloc.add(AddOrUpdateCart(
+          ProductResultModel(
+              id: '123',
+              description: 'asdasda',
+              imageUrl: 'asdasdasdasd.jpg',
+              name: 'teste',
+              price: 29),
+          'userId')),
       expect: () => [
             isA<CartLoading>(),
             isA<CartSuccess>(),
@@ -75,6 +81,13 @@ void main() {
 
   blocTest<CartBloc, CartState>('should emit loading and error state',
       build: () {
+        when(() => cartRepositoryMock.getCart(any())).thenAnswer(
+          (_) async => Right(Cart(
+              cartItemList: <CartItemResultModel>[],
+              userId: '123',
+              totalItems: 2,
+              totalPrice: 123)),
+        );
         when(() => cartRepositoryMock.addOrUpdateCart(any(), any())).thenAnswer(
           (_) async => Left(
               CartDataSourceException(message: 'Erro while adding to cart')),
@@ -84,8 +97,14 @@ void main() {
             getFromCartUseCase: getFromCartUseCase,
             removeFromCartUseCase: removeFromCartUseCase);
       },
-      act: (cartBloc) =>
-          cartBloc.add(AddOrUpdateCart(ProductResultModel(), 'userId')),
+      act: (cartBloc) => cartBloc.add(AddOrUpdateCart(
+          ProductResultModel(
+              id: '123',
+              description: 'asdasda',
+              imageUrl: 'asdasdasdasd.jpg',
+              name: 'teste',
+              price: 29),
+          'userId')),
       expect: () => [
             isA<CartLoading>(),
             isA<CartError>(),
