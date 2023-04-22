@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_clean_arch/app/shop/infra/datasources/user_data_local_datasource.dart';
+import 'package:shop_clean_arch/app/shop/utils/constants.dart';
 
 import 'injector.config.dart';
 
@@ -19,6 +20,10 @@ abstract class RegisterModule {
   Dio dio(@Named('BaseUrl') String url, Logger logger) {
     final dio = Dio(BaseOptions(baseUrl: url));
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+      if (options.path == firebaseURL) {
+        options.queryParameters = {};
+        return handler.next(options);
+      }
       options.queryParameters['auth'] =
           injector<IUserDataLocalDataSource>().getUserLocalData().idToken;
       return handler.next(options);

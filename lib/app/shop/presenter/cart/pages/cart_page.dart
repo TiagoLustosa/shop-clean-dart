@@ -151,5 +151,5 @@ class _CartButtonState extends State<CartButton> {
                   },
             child: const Text('COMPRAR'),
           );
-  }
+  } 
 }

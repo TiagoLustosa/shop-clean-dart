@@ -16,29 +16,29 @@ class AddOrUpdateCartUseCase implements IAddOrUpdateCartUseCase {
   @override
   Future<Either<ICartExceptions, Cart>> call(Product product,
       {String? userId}) async {
-    final getCart = await _cartRepository.getCart(userId!);
+    //  final getCart = await _cartRepository.getCart(userId!);
     CartItemResultModel cartItem = CartItemResultModel(
       id: product.id!,
       name: product.name!,
       price: product.price!,
-      quantity: 0,
+      quantity: 1,
     );
 
-    getCart.fold((l) => Left(l), (r) {
-      Right(r);
-      final cartItemExist = r?.cartItemList.firstWhere(
-          (element) => element.id == product.id,
-          orElse: () => cartItem);
+    // getCart.fold((l) => Left(l), (r) {
+    //   Right(r);
+    //   final cartItemExist = r?.cartItemList.firstWhere(
+    //       (element) => element.id == product.id,
+    //       orElse: () => cartItem);
 
-      cartItem = CartItemResultModel(
-        id: cartItemExist!.id,
-        name: cartItemExist.name,
-        price: cartItemExist.price,
-        quantity: cartItemExist.quantity + 1,
-      );
-    });
+    //   cartItem = CartItemResultModel(
+    //     id: cartItemExist!.id,
+    //     name: cartItemExist.name,
+    //     price: cartItemExist.price,
+    //     quantity: cartItemExist.quantity + 1,
+    //   );
+    // });
 
-    final cart = await _cartRepository.addOrUpdateCart(cartItem, userId);
+    final cart = await _cartRepository.addOrUpdateCart(cartItem, userId!);
     return cart.fold(
       (l) => Left(CartDataSourceException(message: l.toString())),
       (r) => Right(r),
